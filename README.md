@@ -1,2 +1,2 @@
 # ZLogo
-Nothing but another multi-agent simulation
+Nothing but another multi-agent simulation framework.
