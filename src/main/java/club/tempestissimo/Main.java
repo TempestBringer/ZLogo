@@ -2,6 +2,7 @@ package club.tempestissimo;
 
 import club.tempestissimo.awt.attributes.CanvasAttributes;
 import club.tempestissimo.net.entities.Net;
+import club.tempestissimo.net.entities.attributes.Preference;
 import club.tempestissimo.net.initialize.AbstractInitializer;
 import club.tempestissimo.net.initialize.connection.RandomLinkInitializer;
 import club.tempestissimo.net.initialize.place.CirclePlaceInitializer;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        //自拟一些运行参数
         int nodeCount = 10;
         double randomLinkInitializePossibility = 0.1;
         double randomLinkRebuildPossibility = 0.1;
@@ -24,6 +26,10 @@ public class Main {
         int windowHeight = 960;
         int windowWidthPadding = 160;
         int windowHeightPadding = 90;
+        //Model1的偏好
+        Preference preference = new Preference(-1.48, 1.98, 1.0, 1.0, 0.21, -0.347, 0.5, -0.33, 1.0);
+
+
         //初始化网络
         Net net = new Net(nodeCount);
         net.setDoTickInterval(1000);
@@ -52,8 +58,8 @@ public class Main {
 
         //7.步进
         net.setDoTick(true);
+
+        //8.开始执行
         net.run();
-
-
     }
 }

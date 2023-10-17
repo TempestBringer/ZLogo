@@ -45,7 +45,7 @@ public class Node {
         double sum=0;
         int index = net.getNodes().indexOf(this);
         double[][] connectionMatrix = net.getConnectionMatrix();
-        for (int i = 0; i < net.getNodeCount(); i++) {
+//        for (int i = 0; i < net.getNodeCount(); i++) {
             sum+=preference.getDensityPreference()* Satisfaction.getSatisfactionOfDensity(this);
             sum+=preference.getReciprocityPreference()* Satisfaction.getSatisfactionOfReciprocity(this);
             sum+=preference.getPopularityPreference()* Satisfaction.getSatisfactionOfPopularity(this);
@@ -54,7 +54,7 @@ public class Node {
             sum+=preference.getIndirectRelationEffectPreference()* Satisfaction.getSatisfactionOfIndirectRelationsEffect(this, preference.getIndirectRelationEffectPreferenceIsWeakConnectionThreshold());
             sum+=preference.getBalancePreference()* Satisfaction.getSatisfactionOfBalance(this, preference.getBalancePreferenceB0());
 
-        }
+//        }
         return sum;
     }
 
@@ -124,4 +124,13 @@ public class Node {
     public void setPreference(Preference preference) {
         this.preference = preference;
     }
+
+    public HashMap<String, Double> getArgs() {
+        return args;
+    }
+
+    public void setArgs(HashMap<String, Double> args) {
+        this.args = args;
+    }
+
 }
