@@ -36,6 +36,7 @@ public class Node {
      * 节点的其他属性
      */
     private HashMap<String, Double> args;
+    private boolean doLog = false;
 
     public double calculateSatisfaction(){
         if (!net.getNodes().contains(this)){
@@ -45,15 +46,33 @@ public class Node {
         double sum=0;
         int index = net.getNodes().indexOf(this);
         double[][] connectionMatrix = net.getConnectionMatrix();
-//        for (int i = 0; i < net.getNodeCount(); i++) {
-            sum+=preference.getDensityPreference()* Satisfaction.getSatisfactionOfDensity(this);
-            sum+=preference.getReciprocityPreference()* Satisfaction.getSatisfactionOfReciprocity(this);
-            sum+=preference.getPopularityPreference()* Satisfaction.getSatisfactionOfPopularity(this);
-            sum+=preference.getActivityPreference()* Satisfaction.getSatisfactionOfActivity(this);
-            sum+=preference.getTransitivityPreference()* Satisfaction.getSatisfactionOfTransitivity(this);
-            sum+=preference.getIndirectRelationEffectPreference()* Satisfaction.getSatisfactionOfIndirectRelationsEffect(this, preference.getIndirectRelationEffectPreferenceIsWeakConnectionThreshold());
-            sum+=preference.getBalancePreference()* Satisfaction.getSatisfactionOfBalance(this, preference.getBalancePreferenceB0());
+        double densitySatisfaction= preference.getDensityPreference()* Satisfaction.getSatisfactionOfDensity(this);
+        sum+=densitySatisfaction;
+        double reciprocitySatisfaction= preference.getReciprocityPreference()* Satisfaction.getSatisfactionOfReciprocity(this);
+        sum+=reciprocitySatisfaction;
+        double popularitySatisfaction = preference.getPopularityPreference()* Satisfaction.getSatisfactionOfPopularity(this);
+        sum+=popularitySatisfaction;
+        double activitySatisfaction = preference.getActivityPreference()* Satisfaction.getSatisfactionOfActivity(this);
+        sum+=activitySatisfaction;
+        double transitivitySatisfaction = preference.getTransitivityPreference()* Satisfaction.getSatisfactionOfTransitivity(this);
+        sum+=transitivitySatisfaction;
+        double indirectRelationSatisfaction = preference.getIndirectRelationEffectPreference()* Satisfaction.getSatisfactionOfIndirectRelationsEffect(this, preference.getIndirectRelationEffectPreferenceIsWeakConnectionThreshold());
+        sum+=indirectRelationSatisfaction;
+        double balanceSatisfaction =preference.getBalancePreference()* Satisfaction.getSatisfactionOfBalance(this, preference.getBalancePreferenceB0());
+        sum+=balanceSatisfaction;
 
+
+        if (doLog){
+            System.out.println("Density takes ".concat(String.valueOf(densitySatisfaction/sum)).concat(" of node Satisfaction"));
+            System.out.println("reciprocity takes ".concat(String.valueOf(reciprocitySatisfaction/sum)).concat(" of node Satisfaction"));
+            System.out.println("popularity takes ".concat(String.valueOf(popularitySatisfaction/sum)).concat(" of node Satisfaction"));
+            System.out.println("activity takes ".concat(String.valueOf(activitySatisfaction/sum)).concat(" of node Satisfaction"));
+            System.out.println("transitivity takes ".concat(String.valueOf(transitivitySatisfaction/sum)).concat(" of node Satisfaction"));
+            System.out.println("indirectRelation takes ".concat(String.valueOf(indirectRelationSatisfaction/sum)).concat(" of node Satisfaction"));
+            System.out.println("balance takes ".concat(String.valueOf(balanceSatisfaction/sum)).concat(" of node Satisfaction"));
+        }
+//        if (String.valueOf(densitySatisfaction/sum).contains("NaN")){
+//            System.out.println("!");
 //        }
         return sum;
     }

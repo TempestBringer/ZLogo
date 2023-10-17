@@ -57,6 +57,12 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
                 net.getConnectionMatrix()[targetAgentIndex][startAgentIndex] = 0.0;
             }
         }
+//        if (net.getTickFrame()%10==0){
+//            net.setDoGraphicsUpdate(true);
+//        }
+//        if (net.getTickFrame()%10==1){
+//            net.setDoGraphicsUpdate(false);
+//        }
     }
 
     /**

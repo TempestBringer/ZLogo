@@ -47,6 +47,8 @@ public class Net implements Runnable{
     private CanvasAttributes canvasAttributes;
     private MainWindow window;
 
+    private int tickFrame;
+
     /**
      * 改变节点数量
      * @param targetNodeCount
@@ -97,6 +99,7 @@ public class Net implements Runnable{
      * @param nodeCount
      */
     public Net(int nodeCount) {
+        this.tickFrame=0;
         this.nodeCount = nodeCount;
         this.nodes = new CopyOnWriteArrayList<>();
         this.tickEvents = new ArrayList<>();
@@ -137,6 +140,7 @@ public class Net implements Runnable{
         for (int i = 0;i<tickEvents.size();i++){
             tickEvents.get(i).tick(this);
         }
+        this.tickFrame+=1;
     }
 
     @Override
@@ -246,5 +250,13 @@ public class Net implements Runnable{
 
     public void setDoGraphicsUpdate(boolean doGraphicsUpdate) {
         this.doGraphicsUpdate = doGraphicsUpdate;
+    }
+
+    public int getTickFrame() {
+        return tickFrame;
+    }
+
+    public void setTickFrame(int tickFrame) {
+        this.tickFrame = tickFrame;
     }
 }

@@ -159,7 +159,9 @@ public class Satisfaction {
         double sum0=0.0;
         double sum1=0.0;
         for (int i = 0; i < nodeCount; i++) {
-            sum0+=connectionMatrix[selfIndex][i];
+            if (selfIndex!=i){
+                sum0+=connectionMatrix[selfIndex][i];
+            }
         }
         for (int i = 0; i < nodeCount; i++){
             for (int j = 0; j < nodeCount; j++){

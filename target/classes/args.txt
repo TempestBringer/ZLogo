@@ -1,0 +1,108 @@
+all
+-2.10, 2.11,
+                0, 0,
+                0, -0.557,
+                0.5, 1,
+                0.5)
+
+Preference preference = new Preference(-2.10, 2.11,
+                0, 0,
+                0, -0.557,
+                0.5, 1,
+                1.5);
+                沿圆周单向依次建立全连接，有概率双向
+
+star
+
+    Preference preference = new Preference(-2.10, 2.11,
+                0, 0,
+                0, -0.557,
+                0.5, 1,
+                -0.5);
+
+    Preference preference = new Preference(-2.10, 2.11,
+                    0, 0,
+                    0, -0.557,
+                    0.5, 1,
+                    -1.5);
+
+stable1
+ Preference preference = new Preference(-2.10, 2.11,
+                0, 0,
+                0, -0.557,
+                0.5, -1,
+                -1.5);
+                稳定出现部分连接
+
+艰难起步然后全连接
+  Preference preference = new Preference(-1, 0.11,
+                1, 0,
+                1, -0.0557,
+                0.5, -0.1,
+                0.35);
+
+Preference preference = new Preference(-1, 0.11,
+                1, 0,
+                0.5, -0.0557,
+                0.5, -0.1,
+                0.35);
+
+[40nodes\50nodes]
+ Preference preference = new Preference(-1.0, 0.11,
+                1.0, 0,
+                0.5, -0.0557,
+                0.5, -0.05,
+                0.175);
+
+
+轮流社交小王子
+   Preference preference = new Preference(-1, 0.11,
+                0.5, 0,
+                0.5, 0.15,
+                0.5, -0.1,
+                0.35);
+
+星型网络会退化
+Preference preference = new Preference(-1, 0.11,
+                0.8, 0,
+                1.5, 0.15,
+                0.5, -0.1,
+                0.35);
+
+    Preference preference = new Preference(-1, 0.11,
+                0.8, 0,
+                1.7, 0.15,
+                0.5, -0.1,
+                0.35);
+
+合理的交换好友
+   Preference preference = new Preference(1, -0.11,
+                -0.8, 0,
+                -1.7, 0.15,
+                0.5, 0.2,
+                0.35);
+
+    -关键节点连起来了
+   Preference preference = new Preference(1, -0.11,
+                0, 0,
+                -1.7, 0.15,
+                0.5, 0.2,
+                0.35);
+
+    -使劲换
+    Preference preference = new Preference(1, -0.11,
+                    -0.8, 0,
+                    0, 0.15,
+                    0.5, 0.2,
+                    0.35);
+
+全连接退化三角老铁!
+Preference preference = new Preference(1, -0.11,
+                -0.8, 0,
+                0, 0.15,
+                0.5, 0.2,
+                0.35);
+
+a
+
+b

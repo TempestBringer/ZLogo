@@ -45,15 +45,16 @@ public class hw1 {
 //                0, -0.557,
 //                0.5, 0,
 //                0);
-        Preference preference = new Preference(-2.10, 2.11,
-                0, 0,
-                0, -0.557,
-                0.5, 0,
-                0);
+        Preference preference = new Preference(1, -0.11,
+                -0.8, 0,
+                0, 0.15,
+                0.5, 0.2,
+                0.35);
+
 
         //初始化网络
         Net net = new Net(nodeCount);
-        net.setDoTickInterval(10);
+        net.setDoTickInterval(3);
         List<AbstractInitializer> initializers = new ArrayList<>();
         List<AbstractTickEvent> tickEvents = new ArrayList<>();
         //1.位置初始器
