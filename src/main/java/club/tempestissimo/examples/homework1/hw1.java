@@ -9,6 +9,7 @@ import club.tempestissimo.net.initialize.AbstractInitializer;
 import club.tempestissimo.net.initialize.connection.NullLinkInitializer;
 import club.tempestissimo.net.initialize.connection.RandomLinkInitializer;
 import club.tempestissimo.net.initialize.place.CirclePlaceInitializer;
+import club.tempestissimo.net.initialize.place.RandomPlaceInitializer;
 import club.tempestissimo.net.tick.AbstractTickEvent;
 import club.tempestissimo.net.tick.connection.RandomConnectionBuildTickEvent;
 import club.tempestissimo.net.tick.node.NodeCountChangeTickEvent;
@@ -31,21 +32,33 @@ public class hw1 {
         //Model1的偏好
 //        Preference preference = new Preference(-1.48, 1.98, 0.3, 0.25, 0.21, -0.347, 1, -0.33, 1.0);
         //网络崩溃成为星形网络
-//        Preference preference = new Preference(-0.48, 1.98, 1.5, 1.25, 0.21, 0.347, 0.5, -0.33, 1.0);
         Preference preference = new Preference(-0.48, 1.98, 1.5, 1.25, 0.21, 0.347, 0.5, -0.33, 1.0);
+        //较为均衡的B0=0.23
+//        Preference preference = new Preference(-1.48, 1.98,
+//                0, 0,
+//                0.21, -0.347,
+//                0.5, -0.33,
+//                0.225);
+        //Model 2
+//        Preference preference = new Preference(-2.10, 2.11,
+//                0, 0,
+//                0, -0.557,
+//                0.5, 0,
+//                0);
 
 
         //初始化网络
         Net net = new Net(nodeCount);
-        net.setDoTickInterval(100);
+        net.setDoTickInterval(10);
         List<AbstractInitializer> initializers = new ArrayList<>();
         List<AbstractTickEvent> tickEvents = new ArrayList<>();
         //1.位置初始器
         initializers.add(new CirclePlaceInitializer(initiateRadius, windowWidth/2, windowHeight/2));
+//        initializers.add(new RandomPlaceInitializer(100,100,windowWidth, windowHeight));
 
         //2.连接初始器
-        initializers.add(new RandomLinkInitializer(0.2));
-//        initializers.add(new NullLinkInitializer());
+//        initializers.add(new RandomLinkInitializer(0.1));
+        initializers.add(new NullLinkInitializer());
         //3.偏好初始器
         initializers.add(new SatisfactionPreferInitialize(preference));
 

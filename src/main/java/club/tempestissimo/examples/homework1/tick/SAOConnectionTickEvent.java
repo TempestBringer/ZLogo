@@ -15,7 +15,7 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
         int nodeCount = net.getNodeCount();
 //        double[][] newConnectionMatrix = new double[nodeCount][nodeCount];
         int startAgentIndex = (int)(Math.random()*nodeCount);
-        System.out.println("Selected Node ".concat(String.valueOf(startAgentIndex)).concat(" as Starter"));
+//        System.out.println("Selected Node ".concat(String.valueOf(startAgentIndex)).concat(" as Starter"));
         //ArrayList<Double> perAgentConnectionChangePossibility = new ArrayList<>();
         ArrayList<Double> perTargetNextSatisfaction = new ArrayList<>();
         //计算对每个目标更改连接的满意度
@@ -29,12 +29,12 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
         //选择的目标节点的index
         int targetAgentIndex = 0;
         for (int i = 0; i < nodeCount; i++) {
-            System.out.println("Satisfaction to change connection with Node ".concat(String.valueOf(i)).concat(" is ").concat(String.valueOf(perTargetNextSatisfaction.get(i))));
+//            System.out.println("Satisfaction to change connection with Node ".concat(String.valueOf(i)).concat(" is ").concat(String.valueOf(perTargetNextSatisfaction.get(i))));
             if (perTargetNextSatisfaction.get(i)>perTargetNextSatisfaction.get(targetAgentIndex)){
                 targetAgentIndex = i;
             }
         }
-        System.out.println("Selected Node ".concat(String.valueOf(targetAgentIndex)).concat(" as target node"));
+//        System.out.println("Selected Node ".concat(String.valueOf(targetAgentIndex)).concat(" as target node"));
         // 计算更改的概率
         double fenZi = Math.exp(evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex));
         double fenMu = 0.0;
@@ -44,9 +44,9 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
             }
         }
         double possibility = fenZi/fenMu;
-        System.out.println("fenZi : ".concat(String.valueOf(fenZi)));
-        System.out.println("fenMu : ".concat(String.valueOf(fenMu)));
-        System.out.println("Possibility : ".concat(String.valueOf(possibility)));
+//        System.out.println("fenZi : ".concat(String.valueOf(fenZi)));
+//        System.out.println("fenMu : ".concat(String.valueOf(fenMu)));
+//        System.out.println("Possibility : ".concat(String.valueOf(possibility)));
         if (Math.random()<possibility){
             //应当执行边切换
             if (Math.abs(net.getConnectionMatrix()[startAgentIndex][targetAgentIndex])<1E-5){
@@ -78,8 +78,8 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
             //销毁此连接
             net.getConnectionMatrix()[sourceIndex][targetIndex]=0.0;
             net.getConnectionMatrix()[targetIndex][sourceIndex]=0.0;
-            System.out.println("Source Satisfaction : ".concat(String.valueOf(sourceSatisfaction)));
-            System.out.println("Target Satisfaction : ".concat(String.valueOf(targetSatisfaction)));
+//            System.out.println("Source Satisfaction : ".concat(String.valueOf(sourceSatisfaction)));
+//            System.out.println("Target Satisfaction : ".concat(String.valueOf(targetSatisfaction)));
             return targetSatisfaction-sourceSatisfaction;
         } else if (Math.abs(net.getConnectionMatrix()[sourceIndex][targetIndex]-1)<1E-5) {
             //假设没有此链接
@@ -89,8 +89,8 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
             //还原此连接
             net.getConnectionMatrix()[sourceIndex][targetIndex]=1.0;
             net.getConnectionMatrix()[targetIndex][sourceIndex]=1.0;
-            System.out.println("Source Satisfaction : ".concat(String.valueOf(sourceSatisfaction)));
-            System.out.println("Target Satisfaction : ".concat(String.valueOf(targetSatisfaction)));
+//            System.out.println("Source Satisfaction : ".concat(String.valueOf(sourceSatisfaction)));
+//            System.out.println("Target Satisfaction : ".concat(String.valueOf(targetSatisfaction)));
             return targetSatisfaction-sourceSatisfaction;
         }else{
             return 0.0;

@@ -17,7 +17,9 @@ public class Satisfaction {
         int selfIndex = nodes.indexOf(node);
         double sum=0.0;
         for (int i = 0; i < nodeCount; i++) {
-            sum+=connectionMatrix[selfIndex][i];
+            if (i!=selfIndex){
+                sum+=connectionMatrix[selfIndex][i];
+            }
         }
         return sum;
     }
@@ -34,7 +36,9 @@ public class Satisfaction {
         int selfIndex = nodes.indexOf(node);
         double sum=0.0;
         for (int i = 0; i < nodeCount; i++) {
-            sum+=connectionMatrix[selfIndex][i]*connectionMatrix[i][selfIndex];
+            if (i!=selfIndex){
+                sum+=connectionMatrix[selfIndex][i]*connectionMatrix[i][selfIndex];
+            }
         }
         return sum;
     }
@@ -54,7 +58,9 @@ public class Satisfaction {
         for (int i = 0; i < nodeCount; i++) {
             double partSum = 0;
             for (int h=0;h<nodeCount;h++){
-                partSum+= connectionMatrix[h][i];
+                if (h!=i&&h!=selfIndex&&selfIndex!=i){
+                    partSum+= connectionMatrix[h][i];
+                }
             }
             sum += connectionMatrix[selfIndex][i] * partSum;
         }
@@ -76,7 +82,9 @@ public class Satisfaction {
         for (int i = 0; i < nodeCount; i++) {
             double partSum = 0;
             for (int h=0;h<nodeCount;h++){
-                partSum+= connectionMatrix[i][h];
+                if (h!=i&&h!=selfIndex&&selfIndex!=i){
+                    partSum+= connectionMatrix[i][h];
+                }
             }
             sum += connectionMatrix[selfIndex][i] * partSum;
         }
@@ -122,10 +130,13 @@ public class Satisfaction {
             if (connectionMatrix[selfIndex][i]<isWeakConnectionThreshold){
                 for (int j = 0; j < nodeCount; j++) {
                     if (connectionMatrix[selfIndex][j]>0&&connectionMatrix[j][i]>0){
-                        double strength = connectionMatrix[selfIndex][j]*connectionMatrix[j][i];
-                        if (strength>max){
-                            max=strength;
+                        if (selfIndex!=i&&selfIndex!=j&&i!=j){
+                            double strength = connectionMatrix[selfIndex][j]*connectionMatrix[j][i];
+                            if (strength>max){
+                                max=strength;
+                            }
                         }
+
                     }
                 }
             }
@@ -152,7 +163,7 @@ public class Satisfaction {
         }
         for (int i = 0; i < nodeCount; i++){
             for (int j = 0; j < nodeCount; j++){
-                if (j!=selfIndex&&j!=i){
+                if (j!=selfIndex&&j!=i&&selfIndex!=i){
                     sum1+=(threshold-Math.abs(connectionMatrix[selfIndex][j]-connectionMatrix[i][j]));
                 }
             }
