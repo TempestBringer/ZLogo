@@ -94,4 +94,9 @@ public class Preference {
     public void setIndirectRelationEffectPreferenceIsWeakConnectionThreshold(double indirectRelationEffectPreferenceIsWeakConnectionThreshold) {
         this.indirectRelationEffectPreferenceIsWeakConnectionThreshold = indirectRelationEffectPreferenceIsWeakConnectionThreshold;
     }
+
+    public Preference copy(){
+        return new Preference(this.densityPreference,this.reciprocityPreference,this.popularityPreference,this.activityPreference,this.transitivityPreference,this.indirectRelationEffectPreference,this.indirectRelationEffectPreferenceIsWeakConnectionThreshold,this.balancePreference,this.balancePreferenceB0);
+    }
+
 }

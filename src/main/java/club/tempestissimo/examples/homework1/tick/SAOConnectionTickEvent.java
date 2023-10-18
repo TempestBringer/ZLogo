@@ -41,6 +41,8 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
         for (int i=0;i<nodeCount;i++){
             if (i!=startAgentIndex){
                 fenMu += Math.exp(evaluateConnectionQuality(net, startAgentIndex,i));
+            }else{
+                fenMu += Math.exp(0);
             }
         }
         double possibility = fenZi/fenMu;

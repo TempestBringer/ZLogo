@@ -96,6 +96,17 @@ public class Node {
         this.args = new HashMap<>();
     }
 
+    public Node(Net net, int index, Position position, Preference preference, int drawSize, Color color, HashMap<String, Double> args, boolean doLog) {
+        this.net = net;
+        this.index = index;
+        this.position = position;
+        this.preference = preference;
+        this.drawSize = drawSize;
+        this.color = color;
+        this.args = args;
+        this.doLog = doLog;
+    }
+
     public Net getNet() {
         return net;
     }
@@ -152,4 +163,11 @@ public class Node {
         this.args = args;
     }
 
+    public Node copy(Net net){
+        Node node = new Node(net, this.index, this.position, this.preference.copy(), this.drawSize, this.color.copy(), new HashMap<>(), this.doLog);
+        for (String arg:args.keySet()){
+            node.getArgs().put(arg, args.get(arg).doubleValue());
+        }
+        return node;
+    }
 }

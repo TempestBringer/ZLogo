@@ -5,6 +5,10 @@ public class Color {
     private int g;
     private int b;
 
+    public Color copy(){
+        return new Color(r,g,b);
+    }
+
     public int getR() {
         return r;
     }

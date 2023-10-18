@@ -2,24 +2,18 @@ package club.tempestissimo.examples.homework1;
 
 import club.tempestissimo.awt.attributes.CanvasAttributes;
 import club.tempestissimo.examples.homework1.initializer.SatisfactionPreferInitialize;
-import club.tempestissimo.examples.homework1.tick.SAOConnectionTickEvent;
 import club.tempestissimo.examples.homework1.tick.SAOConnectionTickEventOptimized;
 import club.tempestissimo.net.entities.Net;
 import club.tempestissimo.net.entities.attributes.Preference;
 import club.tempestissimo.net.initialize.AbstractInitializer;
 import club.tempestissimo.net.initialize.connection.NullLinkInitializer;
-import club.tempestissimo.net.initialize.connection.RandomLinkInitializer;
 import club.tempestissimo.net.initialize.place.CirclePlaceInitializer;
-import club.tempestissimo.net.initialize.place.RandomPlaceInitializer;
 import club.tempestissimo.net.tick.AbstractTickEvent;
-import club.tempestissimo.net.tick.connection.RandomConnectionBuildTickEvent;
-import club.tempestissimo.net.tick.node.NodeCountChangeTickEvent;
-import club.tempestissimo.net.tick.place.CirclePlaceTickEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class hw1 {
+public class hw1Optimized {
     public static void main(String[] args) {
         //自拟一些运行参数
         int nodeCount = 100;
@@ -72,8 +66,8 @@ public class hw1 {
         net.applyInitializers(initializers);
 
         //4.计算任务
-//        tickEvents.add(new SAOConnectionTickEventOptimized());
-        tickEvents.add(new SAOConnectionTickEvent());
+        tickEvents.add(new SAOConnectionTickEventOptimized());
+//        tickEvents.add(new SAOConnectionTickEvent());
 
         //5.应用计算任务
         net.setTickEvents(tickEvents);

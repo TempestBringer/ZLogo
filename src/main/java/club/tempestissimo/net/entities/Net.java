@@ -259,4 +259,22 @@ public class Net implements Runnable{
     public void setTickFrame(int tickFrame) {
         this.tickFrame = tickFrame;
     }
+
+    public Net copy(){
+        Net net = new Net(this.nodeCount);
+        net.setNodes(new CopyOnWriteArrayList<>());
+        for (int i = 0; i < nodeCount; i++) {
+            net.getNodes().add(nodes.get(i).copy(net));
+        }
+        for (int i = 0; i < nodeCount; i++) {
+            for (int j = 0; j < nodeCount; j++) {
+                net.getConnectionMatrix()[i][j] = connectionMatrix[i][j];
+            }
+        }
+        net.doTick = false;
+        net.doGraphicsUpdate = false;
+
+        return net;
+    }
+
 }
