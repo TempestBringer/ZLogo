@@ -3,6 +3,8 @@ package club.tempestissimo.examples.homework1;
 import club.tempestissimo.awt.attributes.CanvasAttributes;
 import club.tempestissimo.examples.homework1.initializer.SatisfactionPreferInitialize;
 import club.tempestissimo.examples.homework1.tick.SAOConnectionTickEventOptimized;
+import club.tempestissimo.net.analyse.AbstractAnalyser;
+import club.tempestissimo.net.analyse.NodeDegreeAnalyser;
 import club.tempestissimo.net.entities.Net;
 import club.tempestissimo.net.entities.attributes.Preference;
 import club.tempestissimo.net.initialize.AbstractInitializer;
@@ -16,7 +18,7 @@ import java.util.List;
 public class hw1Optimized {
     public static void main(String[] args) {
         //自拟一些运行参数
-        int nodeCount = 100;
+        int nodeCount = 50;
         double randomLinkInitializePossibility = 0.1;
         double randomLinkRebuildPossibility = 0.1;
         int defaultDrawSize = 10;
@@ -72,11 +74,16 @@ public class hw1Optimized {
         //5.应用计算任务
         net.setTickEvents(tickEvents);
 
-        //6.可视化
+        //6.准备分析器
+        List<AbstractAnalyser> tickAnalysers = new ArrayList<>();
+        tickAnalysers.add(new NodeDegreeAnalyser());
+        net.setTickAnalysers(tickAnalysers);
+
+        //7.可视化
         CanvasAttributes canvasAttributes = new CanvasAttributes(windowWidth,windowHeight,defaultDrawSize);
         net.initiateWindow(canvasAttributes);
 
-        //7.步进
+        //8.步进
         net.setDoTick(true);
 
         //8.开始执行

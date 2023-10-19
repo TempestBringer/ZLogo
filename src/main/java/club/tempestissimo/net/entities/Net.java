@@ -2,8 +2,7 @@ package club.tempestissimo.net.entities;
 
 import club.tempestissimo.awt.MainWindow;
 import club.tempestissimo.awt.attributes.CanvasAttributes;
-import club.tempestissimo.net.entities.attributes.Color;
-import club.tempestissimo.net.entities.attributes.Position;
+import club.tempestissimo.net.analyse.AbstractAnalyser;
 import club.tempestissimo.net.initialize.AbstractInitializer;
 import club.tempestissimo.net.tick.AbstractTickEvent;
 
@@ -35,6 +34,8 @@ public class Net implements Runnable{
      * 计算任务及参数列表
      */
     private List<AbstractTickEvent> tickEvents;
+
+    private List<AbstractAnalyser> tickAnalysers;
     /**
      * 物理运算间隔，单位毫秒
      */
@@ -103,6 +104,7 @@ public class Net implements Runnable{
         this.nodeCount = nodeCount;
         this.nodes = new CopyOnWriteArrayList<>();
         this.tickEvents = new ArrayList<>();
+        this.tickAnalysers = new ArrayList<>();
         for (int i = 0; i < nodeCount; i++) {
             this.nodes.add(new Node(this, i));
         }
@@ -134,13 +136,35 @@ public class Net implements Runnable{
     }
 
     /**
-     * 进行逐刻运算
+     * 进行逐刻物理运算
      */
-    public void tick(){
+    public void tickPhysics(){
+        long startTime = System.nanoTime();
         for (int i = 0;i<tickEvents.size();i++){
             tickEvents.get(i).tick(this);
         }
-        this.tickFrame+=1;
+        long endTime = System.nanoTime();
+        long usedTime = endTime-startTime;
+        System.out.println("Current Tick Physic Time: ".concat(String.valueOf(usedTime/1000000)).concat("ms").concat(String.valueOf(usedTime%1000000)).concat("ns "));
+    }
+
+    /**
+     * 进行逐刻分析器运算
+     */
+    public void tickAnalysers(){
+        long startTime = System.nanoTime();
+        for (int i = 0; i < tickAnalysers.size(); i++) {
+            tickAnalysers.get(i).analyse(this);
+            for (String scoreboard:tickAnalysers.get(i).getData().keySet()){
+                Double curTickValue = tickAnalysers.get(i).getData().get(scoreboard).get(this.tickFrame);
+                System.out.println(scoreboard.concat(": ").concat(String.valueOf(curTickValue)));
+
+            }
+        }
+        long endTime = System.nanoTime();
+        long usedTime = endTime-startTime;
+        System.out.println("Current Tick Analyse Time: ".concat(String.valueOf(usedTime/1000000)).concat("ms").concat(String.valueOf(usedTime%1000000)).concat("ns "));
+
     }
 
     @Override
@@ -148,15 +172,19 @@ public class Net implements Runnable{
         while(!doBreak){
             //进行网络仿真计算
             if (doTick){
-                long startTime = System.currentTimeMillis();
-                this.tick();
-                long endTime = System.currentTimeMillis();
-                long usedTime = endTime-startTime;
                 System.out.println("-----------------");
-                System.out.println("Current Net Contain : ".concat(String.valueOf(nodeCount)).concat(" nodes."));
-                System.out.println("Current Tick Used Time: ".concat(String.valueOf(usedTime)).concat(" ms."));
+                System.out.println("Tick: ".concat(String.valueOf(tickFrame)));
 
+                this.tickPhysics();
+                this.tickAnalysers();
+
+
+                System.out.println("Current Net Contain : ".concat(String.valueOf(nodeCount)).concat(" nodes."));
+
+                this.tickFrame+=1;
             }
+            //分析器更新自己
+
             //绘制可视化
             if (this.window!=null){
                 if (doGraphicsUpdate){
@@ -260,6 +288,14 @@ public class Net implements Runnable{
         this.tickFrame = tickFrame;
     }
 
+    public List<AbstractAnalyser> getTickAnalysers() {
+        return tickAnalysers;
+    }
+
+    public void setTickAnalysers(List<AbstractAnalyser> tickAnalysers) {
+        this.tickAnalysers = tickAnalysers;
+    }
+
     public Net copy(){
         Net net = new Net(this.nodeCount);
         net.setNodes(new CopyOnWriteArrayList<>());
@@ -276,5 +312,6 @@ public class Net implements Runnable{
 
         return net;
     }
+
 
 }
