@@ -33,7 +33,8 @@ public class hw1 {
         int windowHeight = 800;
 
         //Model1的偏好
-//        Preference preference = new Preference(-1.48, 1.98, 0.3, 0.25, 0.21, -0.347, 1, -0.33, 1.0);
+        Preference preference = new Preference(-1.48, 1.98, 0.0, 0.0, 0.21, -0.347, 1, -0.33, 1.0);
+
         //网络崩溃成为星形网络
 //        Preference preference = new Preference(-0.48, 1.98, 1.5, 1.25, 0.21, 0.347, 0.5, -0.33, 1.0);
         //较为均衡的B0=0.23
@@ -48,11 +49,13 @@ public class hw1 {
 //                0, -0.557,
 //                0.5, 0,
 //                0);
-        Preference preference = new Preference(1, -0.11,
-                -0.8, 0,
-                0, 0.15,
-                0.5, 0.2,
-                0.35);
+
+        //适用于作业2模拟新生建立朋友网络的过程
+//        Preference preference = new Preference(1, -0.11,
+//                -0.8, 0,
+//                0, 0.15,
+//                0.5, 0.2,
+//                0.35);
 
 
         //初始化网络

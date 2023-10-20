@@ -6,6 +6,9 @@ import club.tempestissimo.net.tick.AbstractTickEvent;
 
 import java.util.ArrayList;
 
+/**
+ * 为大量节点模拟需求进行并行优化后的算子，建议在节点>100后使用
+ */
 public class SAOConnectionTickEventOptimized implements AbstractTickEvent {
 
     public boolean doLog = false;
@@ -140,6 +143,8 @@ public class SAOConnectionTickEventOptimized implements AbstractTickEvent {
                 targetAgentIndex = i;
             }
         }
+        if (startAgentIndex==targetAgentIndex)
+            return;
         if (doLog)
             System.out.println("Selected Node ".concat(String.valueOf(targetAgentIndex)).concat(" as target node"));
         // 多线程计算更改的概率

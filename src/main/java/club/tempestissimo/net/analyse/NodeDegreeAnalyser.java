@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * 全节点出度和与最大出度节点的分析器，适用于有向与无向图
+ */
+
 public class NodeDegreeAnalyser implements  AbstractAnalyser{
     /**
      * Key String为计分项名称，List<Double>为随每帧生成的一个计分值，List中第index帧的计分值为List.get(index)

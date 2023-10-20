@@ -170,21 +170,15 @@ public class Net implements Runnable{
     @Override
     public void run() {
         while(!doBreak){
-            //进行网络仿真计算
             if (doTick){
                 System.out.println("-----------------");
                 System.out.println("Tick: ".concat(String.valueOf(tickFrame)));
-
+                //进行网络仿真计算
                 this.tickPhysics();
+                //分析器更新自己
                 this.tickAnalysers();
-
-
                 System.out.println("Current Net Contain : ".concat(String.valueOf(nodeCount)).concat(" nodes."));
-
-                this.tickFrame+=1;
             }
-            //分析器更新自己
-
             //绘制可视化
             if (this.window!=null){
                 if (doGraphicsUpdate){
@@ -196,6 +190,7 @@ public class Net implements Runnable{
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            this.tickFrame+=1;
         }
 
     }

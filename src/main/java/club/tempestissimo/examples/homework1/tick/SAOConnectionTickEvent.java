@@ -34,6 +34,8 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
                 targetAgentIndex = i;
             }
         }
+        if (startAgentIndex==targetAgentIndex)
+            return;
 //        System.out.println("Selected Node ".concat(String.valueOf(targetAgentIndex)).concat(" as target node"));
         // 计算更改的概率
         double fenZi = Math.exp(evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex));
