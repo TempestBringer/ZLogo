@@ -89,6 +89,27 @@ Preference preference = new Preference(-1, 0.11,
                 0.5, 0.2,
                 0.35);
 
+
+四个社牛加几个反复横跳
+Preference preference = new Preference(1, -0.11,
+                0, 0,
+                -1.7, 0.15,
+                0.5, 0.2,
+                0.35);
+五个人。。。
+ Preference preference = new Preference(1.5, 0,
+                0, 0,
+                -1.7, 0.15,
+                0.5, 0.2,
+                0.45);
+三个人。。
+Preference preference = new Preference(1.5, 0,
+                0, 0,
+                -1.7, 0.15,
+                0.5, 0.2,
+                0.25);
+
+
     -使劲换
     Preference preference = new Preference(1, -0.11,
                     -0.8, 0,
@@ -102,6 +123,43 @@ Preference preference = new Preference(1, -0.11,
                 0, 0.15,
                 0.5, 0.2,
                 0.35);
+
+稳定后出现几个不社交的人
+Preference preference = new Preference(1, -0.11,
+                0.8, 0,
+                0, 0.15,
+                0.5, 0.2,
+                0.35);
+
+0.8-0.6---0--- -0.2 稳定后不社交逐渐增多
+
+Preference preference = new Preference(1, -0.11,
+                -0.2, 0,
+                0, 0.15,
+                0.5, 0.2,
+                0.35);
+
+稳定星型网络（40节点会有两个）
+Preference preference = new Preference(1.5, -1.98,
+                1.5, 0.0,
+                -1, -0.347,
+                -1, 0.33,
+                0.1);
+
+一个星型网络瞬变为双星（一个点随机连到3条后突变为双星）
+Preference preference = new Preference(1.5, -1.5,
+                1.5, 0.0,
+                -1, -0.347,
+                -1, 0.33,
+                0.1);
+
+一变二变三（随机连四个后突变）
+Preference preference = new Preference(1.5, -1.5,
+                1.5, 0.0,
+                -1, -0.347,
+                -1, 0.33,
+                0.2);
+
 
 a
 

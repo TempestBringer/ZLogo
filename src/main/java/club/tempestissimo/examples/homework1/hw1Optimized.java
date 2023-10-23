@@ -28,7 +28,7 @@ public class hw1Optimized {
         int windowHeight = 800;
 
         //Model1的偏好微调
-        Preference preference = new Preference(-2.96, 1.98, 2.0, 0.0, 0.21, -0.347, 1, -0.33, -0.125);
+//        Preference preference = new Preference(-2.96, 1.98, 2.0, 0.0, 0.21, -0.347, 1, -0.33, -0.125);
         //网络崩溃成为星形网络
 //        Preference preference = new Preference(-0.48, 1.98, 1.5, 1.25, 0.21, 0.347, 0.5, -0.33, 1.0);
         //较为均衡的B0=0.23
@@ -45,16 +45,16 @@ public class hw1Optimized {
 //                0);
 
         //适用于作业2模拟新生建立朋友网络的过程
-//        Preference preference = new Preference(1, -0.11,
-//                -0.8, 0,
-//                0, 0.15,
-//                0.5, 0.2,
-//                0.35);
+        Preference preference = new Preference(1, -0.11,
+                -0.8, 0,
+                0, 0.15,
+                0.5, 0.2,
+                0.35);
 
 
         //初始化网络
         Net net = new Net(nodeCount);
-        net.setDoTickInterval(3);
+        net.setDoTickInterval(0);
         List<AbstractInitializer> initializers = new ArrayList<>();
         List<AbstractTickEvent> tickEvents = new ArrayList<>();
         //1.位置初始器
@@ -63,7 +63,8 @@ public class hw1Optimized {
 
         //2.连接初始器
 //        initializers.add(new RandomLinkInitializer(0.1));
-        initializers.add(new StarLinkInitializer());
+        initializers.add(new NullLinkInitializer());
+//        initializers.add(new StarLinkInitializer());
         //3.偏好初始器
         initializers.add(new SatisfactionPreferInitialize(preference));
 

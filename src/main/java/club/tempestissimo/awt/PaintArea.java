@@ -17,8 +17,6 @@ public class PaintArea extends Canvas {
      */
     private Image bufferedImage = null;
 
-    private Frame frame = new Frame("JavaAWT Drawing Net");
-
     private CanvasAttributes canvasAttributes;
     @Override
     public void paint(Graphics g){

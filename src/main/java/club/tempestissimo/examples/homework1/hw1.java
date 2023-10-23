@@ -3,20 +3,15 @@ package club.tempestissimo.examples.homework1;
 import club.tempestissimo.awt.attributes.CanvasAttributes;
 import club.tempestissimo.examples.homework1.initializer.SatisfactionPreferInitialize;
 import club.tempestissimo.examples.homework1.tick.SAOConnectionTickEvent;
-import club.tempestissimo.examples.homework1.tick.SAOConnectionTickEventOptimized;
 import club.tempestissimo.net.analyse.AbstractAnalyser;
+import club.tempestissimo.net.analyse.NetToFileAnalyser;
 import club.tempestissimo.net.analyse.NodeDegreeAnalyser;
 import club.tempestissimo.net.entities.Net;
 import club.tempestissimo.net.entities.attributes.Preference;
 import club.tempestissimo.net.initialize.AbstractInitializer;
 import club.tempestissimo.net.initialize.connection.NullLinkInitializer;
-import club.tempestissimo.net.initialize.connection.RandomLinkInitializer;
 import club.tempestissimo.net.initialize.place.CirclePlaceInitializer;
-import club.tempestissimo.net.initialize.place.RandomPlaceInitializer;
 import club.tempestissimo.net.tick.AbstractTickEvent;
-import club.tempestissimo.net.tick.connection.RandomConnectionBuildTickEvent;
-import club.tempestissimo.net.tick.node.NodeCountChangeTickEvent;
-import club.tempestissimo.net.tick.place.CirclePlaceTickEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,16 +19,17 @@ import java.util.List;
 public class hw1 {
     public static void main(String[] args) {
         //自拟一些运行参数
-        int nodeCount = 50;
+        int nodeCount = 40;
         double randomLinkInitializePossibility = 0.1;
         double randomLinkRebuildPossibility = 0.1;
         int defaultDrawSize = 10;
         int initiateRadius = 300;
         int windowWidth = 800;
         int windowHeight = 800;
+        String fileOutput = "out.txt";
 
         //Model1的偏好
-        Preference preference = new Preference(-1.48, 1.98, 0.0, 0.0, 0.21, -0.347, 1, -0.33, 1.0);
+//        Preference preference = new Preference(-1.48, 1.98, 0.0, 0.0, 0.21, -0.347, 1, -0.33, 1.0);
 
         //网络崩溃成为星形网络
 //        Preference preference = new Preference(-0.48, 1.98, 1.5, 1.25, 0.21, 0.347, 0.5, -0.33, 1.0);
@@ -42,7 +38,7 @@ public class hw1 {
 //                0, 0,
 //                0.21, -0.347,
 //                0.5, -0.33,
-//                0.225);
+//                0.220);
         //Model 2
 //        Preference preference = new Preference(-2.10, 2.11,
 //                0, 0,
@@ -56,11 +52,15 @@ public class hw1 {
 //                0, 0.15,
 //                0.5, 0.2,
 //                0.35);
-
+        Preference preference = new Preference(1.5, -1.5,
+                1.5, 0.0,
+                -1, -0.347,
+                -1, 0.33,
+                0.2);
 
         //初始化网络
         Net net = new Net(nodeCount);
-        net.setDoTickInterval(3);
+        net.setDoTickInterval(0);
         List<AbstractInitializer> initializers = new ArrayList<>();
         List<AbstractTickEvent> tickEvents = new ArrayList<>();
         //1.位置初始器
@@ -86,6 +86,7 @@ public class hw1 {
         //6.准备分析器
         List<AbstractAnalyser> tickAnalysers = new ArrayList<>();
         tickAnalysers.add(new NodeDegreeAnalyser());
+        tickAnalysers.add(new NetToFileAnalyser(fileOutput));
         net.setTickAnalysers(tickAnalysers);
 
         //7.可视化

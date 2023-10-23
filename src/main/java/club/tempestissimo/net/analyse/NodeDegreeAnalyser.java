@@ -1,7 +1,10 @@
 package club.tempestissimo.net.analyse;
 
+import club.tempestissimo.awt.DataGraphWindow;
+import club.tempestissimo.awt.attributes.CanvasAttributes;
 import club.tempestissimo.net.entities.Net;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,12 +19,21 @@ public class NodeDegreeAnalyser implements  AbstractAnalyser{
      */
     private HashMap<String, List<Double>> data;
 
+    private String graph1 = "Total Degree";
+    private String graph2 = "Max Degree";
+
+    private CanvasAttributes canvasAttributes = new CanvasAttributes(640, 360, 10);
+
 
     @Override
     public HashMap<String, List<Double>> getData() {
         return this.data;
     }
 
+    /**
+     * 分析器被调用的函数
+     * @param net
+     */
     @Override
     public void analyse(Net net) {
         HashMap<Integer,Double> rawResult = new HashMap<>();
@@ -47,7 +59,7 @@ public class NodeDegreeAnalyser implements  AbstractAnalyser{
             }
         }
         //计分值：total degree
-        String scoreboardNameOne = "Total Degree";
+        String scoreboardNameOne = graph1;
         if (!data.containsKey(scoreboardNameOne)){
             data.put(scoreboardNameOne,new ArrayList<>());
         }
@@ -56,7 +68,7 @@ public class NodeDegreeAnalyser implements  AbstractAnalyser{
         data.put(scoreboardNameOne, resultsOne);
 
         //计分值：max degree
-        String scoreboardNameTwo = "Max Degree";
+        String scoreboardNameTwo = graph2;
         if (!data.containsKey(scoreboardNameTwo)){
             data.put(scoreboardNameTwo,new ArrayList<>());
         }
@@ -64,10 +76,22 @@ public class NodeDegreeAnalyser implements  AbstractAnalyser{
         resultsTwo.add((double) max);
         data.put(scoreboardNameTwo, resultsTwo);
 
+        //更新图表
+        this.windows.get(0).setDrawData(this.data.get(graph1));
+        this.windows.get(1).setDrawData(this.data.get(graph2));
+        for (DataGraphWindow window: windows){
+            window.update();
+        }
     }
 
     public NodeDegreeAnalyser(){
         this.data = new HashMap<>();
+        DataGraphWindow window1 = new DataGraphWindow(graph1, canvasAttributes);
+        DataGraphWindow window2 = new DataGraphWindow(graph2, canvasAttributes);
+
+        this.windows.add(window1);
+        this.windows.add(window2);
+
     }
 
 }
