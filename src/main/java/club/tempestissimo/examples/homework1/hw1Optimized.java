@@ -4,6 +4,7 @@ import club.tempestissimo.awt.attributes.CanvasAttributes;
 import club.tempestissimo.examples.homework1.initializer.SatisfactionPreferInitialize;
 import club.tempestissimo.examples.homework1.tick.SAOConnectionTickEventOptimized;
 import club.tempestissimo.net.analyse.AbstractAnalyser;
+import club.tempestissimo.net.analyse.DegreeDistributionAnalyser;
 import club.tempestissimo.net.analyse.NodeDegreeAnalyser;
 import club.tempestissimo.net.entities.Net;
 import club.tempestissimo.net.entities.attributes.Preference;
@@ -19,7 +20,7 @@ import java.util.List;
 public class hw1Optimized {
     public static void main(String[] args) {
         //自拟一些运行参数
-        int nodeCount = 50;
+        int nodeCount = 100;
         double randomLinkInitializePossibility = 0.1;
         double randomLinkRebuildPossibility = 0.1;
         int defaultDrawSize = 10;
@@ -45,11 +46,15 @@ public class hw1Optimized {
 //                0);
 
         //适用于作业2模拟新生建立朋友网络的过程
-        Preference preference = new Preference(1, -0.11,
-                -0.8, 0,
-                0, 0.15,
-                0.5, 0.2,
-                0.35);
+//        Preference preference = new Preference(1, -0.11,
+//                -0.8, 0,
+//                0, 0.15,
+//                0.5, 0.2,
+//                0.35);
+        Preference preference = new Preference(-1.78, 1.98,
+                1.0, 0.0, 0.21,
+                -0.347, 0.5,
+                -0.33, 0.125);
 
 
         //初始化网络
@@ -72,8 +77,9 @@ public class hw1Optimized {
         net.applyInitializers(initializers);
 
         //4.计算任务
-        tickEvents.add(new SAOConnectionTickEventOptimized());
-//        tickEvents.add(new SAOConnectionTickEvent());
+        SAOConnectionTickEventOptimized saoConnectionTickEventOptimized = new SAOConnectionTickEventOptimized();
+        saoConnectionTickEventOptimized.useExp = false;
+        tickEvents.add(saoConnectionTickEventOptimized);
 
         //5.应用计算任务
         net.setTickEvents(tickEvents);
@@ -81,6 +87,7 @@ public class hw1Optimized {
         //6.准备分析器
         List<AbstractAnalyser> tickAnalysers = new ArrayList<>();
         tickAnalysers.add(new NodeDegreeAnalyser());
+        tickAnalysers.add(new DegreeDistributionAnalyser());
         net.setTickAnalysers(tickAnalysers);
 
         //7.可视化

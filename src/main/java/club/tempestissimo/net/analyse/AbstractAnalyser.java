@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface AbstractAnalyser {
-    public List<DataGraphWindow> windows = new ArrayList<>();
     public abstract HashMap<String, List<Double>> getData();
     public abstract void analyse(Net net);
 

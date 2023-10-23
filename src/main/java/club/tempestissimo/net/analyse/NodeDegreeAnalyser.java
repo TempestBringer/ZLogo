@@ -18,6 +18,7 @@ public class NodeDegreeAnalyser implements  AbstractAnalyser{
      * Key String为计分项名称，List<Double>为随每帧生成的一个计分值，List中第index帧的计分值为List.get(index)
      */
     private HashMap<String, List<Double>> data;
+    private List<DataGraphWindow> windows = new ArrayList<>();
 
     private String graph1 = "Total Degree";
     private String graph2 = "Max Degree";
@@ -86,8 +87,8 @@ public class NodeDegreeAnalyser implements  AbstractAnalyser{
 
     public NodeDegreeAnalyser(){
         this.data = new HashMap<>();
-        DataGraphWindow window1 = new DataGraphWindow(graph1, canvasAttributes, 1000);
-        DataGraphWindow window2 = new DataGraphWindow(graph2, canvasAttributes, 50);
+        DataGraphWindow window1 = new DataGraphWindow(graph1, canvasAttributes, 5000);
+        DataGraphWindow window2 = new DataGraphWindow(graph2, canvasAttributes, 100);
 
         this.windows.add(window1);
         this.windows.add(window2);

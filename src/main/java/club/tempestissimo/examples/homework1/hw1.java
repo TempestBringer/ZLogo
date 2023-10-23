@@ -4,6 +4,7 @@ import club.tempestissimo.awt.attributes.CanvasAttributes;
 import club.tempestissimo.examples.homework1.initializer.SatisfactionPreferInitialize;
 import club.tempestissimo.examples.homework1.tick.SAOConnectionTickEvent;
 import club.tempestissimo.net.analyse.AbstractAnalyser;
+import club.tempestissimo.net.analyse.DegreeDistributionAnalyser;
 import club.tempestissimo.net.analyse.NetToFileAnalyser;
 import club.tempestissimo.net.analyse.NodeDegreeAnalyser;
 import club.tempestissimo.net.entities.Net;
@@ -19,7 +20,7 @@ import java.util.List;
 public class hw1 {
     public static void main(String[] args) {
         //自拟一些运行参数
-        int nodeCount = 40;
+        int nodeCount = 100;
         double randomLinkInitializePossibility = 0.1;
         double randomLinkRebuildPossibility = 0.1;
         int defaultDrawSize = 10;
@@ -29,8 +30,12 @@ public class hw1 {
         String fileOutput = "out.txt";
 
         //Model1的偏好
-//        Preference preference = new Preference(-1.48, 1.98, 0.0, 0.0, 0.21, -0.347, 1, -0.33, 1.0);
+//        Preference preference = new Preference(-1.48, 1.98, 0.0, 0.0, 0.21, -0.347, 0.5, -0.33, 0.1);
 
+        Preference preference = new Preference(-1.78, 1.98,
+                1.0, 0.0, 0.21,
+                -0.347, 0.5,
+                -0.33, 5.0/nodeCount);
         //网络崩溃成为星形网络
 //        Preference preference = new Preference(-0.48, 1.98, 1.5, 1.25, 0.21, 0.347, 0.5, -0.33, 1.0);
         //较为均衡的B0=0.23
@@ -52,11 +57,16 @@ public class hw1 {
 //                0, 0.15,
 //                0.5, 0.2,
 //                0.35);
-        Preference preference = new Preference(1.5, -1.5,
-                1.5, 0.0,
-                -1, -0.347,
-                -1, 0.33,
-                0.2);
+//        Preference preference = new Preference(1.5, -1.5,
+//                1.5, 0.0,
+//                -1, -0.347,
+//                -1, 0.33,
+//                0.2);
+//        Preference preference = new Preference(1.5, -1.5,
+//                1.5, 0.0,
+//                -1, -0.347,
+//                -1, 0.33,
+//                0.03);
 
         //初始化网络
         Net net = new Net(nodeCount);
@@ -77,8 +87,9 @@ public class hw1 {
         net.applyInitializers(initializers);
 
         //4.计算任务
-//        tickEvents.add(new SAOConnectionTickEventOptimized());
-        tickEvents.add(new SAOConnectionTickEvent());
+        SAOConnectionTickEvent saoConnectionTickEvent = new SAOConnectionTickEvent();
+        saoConnectionTickEvent.useExp = false;//是否使用exp函数
+        tickEvents.add(saoConnectionTickEvent);
 
         //5.应用计算任务
         net.setTickEvents(tickEvents);
@@ -86,7 +97,8 @@ public class hw1 {
         //6.准备分析器
         List<AbstractAnalyser> tickAnalysers = new ArrayList<>();
         tickAnalysers.add(new NodeDegreeAnalyser());
-        tickAnalysers.add(new NetToFileAnalyser(fileOutput));
+//        tickAnalysers.add(new NetToFileAnalyser(fileOutput));
+        tickAnalysers.add(new DegreeDistributionAnalyser());
         net.setTickAnalysers(tickAnalysers);
 
         //7.可视化

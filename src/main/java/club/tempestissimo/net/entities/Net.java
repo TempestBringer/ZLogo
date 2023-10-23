@@ -155,11 +155,10 @@ public class Net implements Runnable{
         long startTime = System.nanoTime();
         for (int i = 0; i < tickAnalysers.size(); i++) {
             tickAnalysers.get(i).analyse(this);
-            for (String scoreboard:tickAnalysers.get(i).getData().keySet()){
-                Double curTickValue = tickAnalysers.get(i).getData().get(scoreboard).get(this.tickFrame);
-                System.out.println(scoreboard.concat(": ").concat(String.valueOf(curTickValue)));
-
-            }
+//            for (String scoreboard:tickAnalysers.get(i).getData().keySet()){
+//                Double curTickValue = tickAnalysers.get(i).getData().get(scoreboard).get(this.tickFrame);
+//                System.out.println(scoreboard.concat(": ").concat(String.valueOf(curTickValue)));
+//            }
         }
         long endTime = System.nanoTime();
         long usedTime = endTime-startTime;

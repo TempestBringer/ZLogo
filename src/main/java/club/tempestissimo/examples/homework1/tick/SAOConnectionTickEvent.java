@@ -7,6 +7,8 @@ import club.tempestissimo.net.tick.AbstractTickEvent;
 import java.util.ArrayList;
 
 public class SAOConnectionTickEvent implements AbstractTickEvent {
+    public boolean useExp = true;
+
     @Override
     public void tick(Net net) {
         //每次随机选择一个节点i，改变i的出度
@@ -38,13 +40,25 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
             return;
 //        System.out.println("Selected Node ".concat(String.valueOf(targetAgentIndex)).concat(" as target node"));
         // 计算更改的概率
-        double fenZi = Math.exp(evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex));
+        double fenZi = 0;
+        if (useExp){
+            fenZi = Math.exp(evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex));
+        }else{
+            fenZi = evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex);
+        }
+
         double fenMu = 0.0;
         for (int i=0;i<nodeCount;i++){
             if (i!=startAgentIndex){
-                fenMu += Math.exp(evaluateConnectionQuality(net, startAgentIndex,i));
+                if (useExp)
+                    fenMu += Math.exp(evaluateConnectionQuality(net, startAgentIndex,i));
+                else
+                    fenMu += evaluateConnectionQuality(net, startAgentIndex,i);
             }else{
-                fenMu += Math.exp(0);
+                if (useExp)
+                    fenMu += Math.exp(0);
+                else
+                    fenMu += 1;
             }
         }
         double possibility = fenZi/fenMu;
@@ -123,4 +137,5 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
         }
         return newConnectionMatrix;
     }
+
 }

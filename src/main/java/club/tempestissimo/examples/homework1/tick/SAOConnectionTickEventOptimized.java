@@ -13,6 +13,8 @@ public class SAOConnectionTickEventOptimized implements AbstractTickEvent {
 
     public boolean doLog = false;
 
+    public boolean useExp = true;
+
     public int threadNum = 6;
     /**
      * 一阶段寻找最大改善满意度的连接目标的线程池以及结果变量
@@ -148,8 +150,11 @@ public class SAOConnectionTickEventOptimized implements AbstractTickEvent {
         if (doLog)
             System.out.println("Selected Node ".concat(String.valueOf(targetAgentIndex)).concat(" as target node"));
         // 多线程计算更改的概率
-        double fenZi = Math.exp(evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex));
-
+        double fenZi = 0;
+        if (useExp)
+            fenZi = Math.exp(evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex));
+        else
+            fenZi = evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex);
         nextSatisfactionCalculateThreads= new ArrayList<>();
         nextSatisfactionCalculateThreadResult = new ArrayList<>();
         for (int i = 0; i < nodeCount; i++) {
@@ -180,7 +185,10 @@ public class SAOConnectionTickEventOptimized implements AbstractTickEvent {
         }
         double fenMu = 0.0;
         for (int i = 0; i < nodeCount; i++) {
-            fenMu+=Math.exp(nextSatisfactionCalculateThreadResult.get(i));
+            if (useExp)
+                fenMu+=Math.exp(nextSatisfactionCalculateThreadResult.get(i));
+            else
+                fenMu+=nextSatisfactionCalculateThreadResult.get(i);
         }
         double possibility = fenZi/fenMu;
         if (doLog){
