@@ -1,8 +1,10 @@
 package club.tempestissimo;
 
 import club.tempestissimo.awt.attributes.CanvasAttributes;
+import club.tempestissimo.net.entities.attributes.Position;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataGraphPaintArea extends Canvas {
@@ -12,6 +14,10 @@ public class DataGraphPaintArea extends Canvas {
      */
     private Image bufferedImage = null;
     private CanvasAttributes canvasAttributes;
+    /**
+     * y轴缩放倍率
+     */
+    private double yAxisMax;
 
     @Override
     public void paint(Graphics g){
@@ -23,6 +29,19 @@ public class DataGraphPaintArea extends Canvas {
         g.drawLine(axisXStart, axisYStart, axisXEnd, axisYStart);
         //y轴
         g.drawLine(axisXStart, axisYStart, axisXStart, axisYEnd);
+        List<Position> dots = new ArrayList<>();
+        for (int i = 0; i < drawData.size(); i++) {
+            double dotX = getWidth()*0.05 + getWidth()*0.90*i/drawData.size();
+            double dotY = getHeight()*0.95 - getHeight()*0.90*drawData.get(i)/ yAxisMax;
+            dots.add(new Position(dotX,dotY,0.0));
+        }
+        for (int i=0;i<dots.size()-1;i++){
+            int startX = (int) dots.get(i).getXPosition();
+            int startY = (int) dots.get(i).getYPosition();
+            int endX = (int) dots.get(i+1).getXPosition();
+            int endY = (int) dots.get(i+1).getYPosition();
+            g.drawLine(startX,startY,endX,endY);
+        }
     }
 
     /**
@@ -50,5 +69,13 @@ public class DataGraphPaintArea extends Canvas {
 
     public void setDrawData(List<Double> drawData) {
         this.drawData = drawData;
+    }
+
+    public double getYAxisMax() {
+        return yAxisMax;
+    }
+
+    public void setYAxisMax(double yAxisMax) {
+        this.yAxisMax = yAxisMax;
     }
 }

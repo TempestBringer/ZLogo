@@ -86,8 +86,8 @@ public class NodeDegreeAnalyser implements  AbstractAnalyser{
 
     public NodeDegreeAnalyser(){
         this.data = new HashMap<>();
-        DataGraphWindow window1 = new DataGraphWindow(graph1, canvasAttributes);
-        DataGraphWindow window2 = new DataGraphWindow(graph2, canvasAttributes);
+        DataGraphWindow window1 = new DataGraphWindow(graph1, canvasAttributes, 1000);
+        DataGraphWindow window2 = new DataGraphWindow(graph2, canvasAttributes, 50);
 
         this.windows.add(window1);
         this.windows.add(window2);

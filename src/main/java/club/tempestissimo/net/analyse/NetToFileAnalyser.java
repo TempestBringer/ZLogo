@@ -32,6 +32,8 @@ public class NetToFileAnalyser implements AbstractAnalyser{
             BufferedWriter writer = new BufferedWriter (new OutputStreamWriter (new FileOutputStream (filePath,true),"UTF-8"));
             writer.write("tick=".concat(String.valueOf(net.getTickFrame())));
             writer.write("\n");
+            writer.write("node count=".concat(String.valueOf(net.getNodeCount())));
+            writer.write("\n");
             for (int i = 0; i < net.getNodeCount(); i++) {
                 for (int j = 0; j < net.getNodeCount(); j++) {
                     writer.write(" ");
