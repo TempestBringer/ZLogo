@@ -74,9 +74,9 @@ public class DataGraphPaintArea extends Canvas {
         Position xMax = originPoint.copy();
         xMax.setXPosition(getWidth()*0.95);
         Position yMin = originPoint.copy();
-        yMin.setXPosition(getHeight()*0.95);
+        yMin.setYPosition(getHeight()*0.95);
         Position yMax = originPoint.copy();
-        yMax.setXPosition(getHeight()*0.05);
+        yMax.setYPosition(getHeight()*0.05);
         g.drawLine((int) originPoint.getXPosition(), (int) originPoint.getYPosition(),
                 (int) xMax.getXPosition(), (int) xMax.getYPosition());
         g.drawLine((int) yMin.getXPosition(), (int) yMin.getYPosition(),
