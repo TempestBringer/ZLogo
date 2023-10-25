@@ -160,6 +160,13 @@ Preference preference = new Preference(1.5, -1.5,
                 -1, 0.33,
                 0.2);
 
+100node 山挪走了
+Preference preference = new Preference(-1.78, 1.98,
+                1.0, 0.0, 0.21,
+                -0.347, 0.5,
+                -0.33, 1.0/nodeCount);
+
+
 
 a
 

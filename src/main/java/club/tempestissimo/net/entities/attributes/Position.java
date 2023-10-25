@@ -5,6 +5,11 @@ public class Position {
     private double yPosition;
     private double degree;
 
+    public Position copy(){
+        return new Position(xPosition,yPosition,degree);
+    }
+
+
     public double getXPosition() {
         return xPosition;
     }

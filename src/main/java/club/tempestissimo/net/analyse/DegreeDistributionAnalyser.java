@@ -52,7 +52,7 @@ public class DegreeDistributionAnalyser implements AbstractAnalyser{
 
     public DegreeDistributionAnalyser() {
         this.data = new HashMap<>();
-        DataGraphWindow window = new DataGraphWindow(graph1, canvasAttributes, 100);
+        DataGraphWindow window = new DataGraphWindow(graph1, canvasAttributes);
         this.windows.add(window);
     }
 }
