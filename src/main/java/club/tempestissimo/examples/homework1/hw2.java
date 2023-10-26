@@ -27,7 +27,7 @@ public class hw2 {
         int initiateRadius = 300;
         int windowWidth = 800;
         int windowHeight = 800;
-        //参数搜索范围
+        //B0参数搜索范围
         double argStart = 0.10;
         double argStep = 0.01;
         double argStop = 0.40;
@@ -100,9 +100,6 @@ public class hw2 {
                 }
             }
             if (allDone){
-                for (int i = 0; i < nets.size(); i++) {
-                    nets.get(i).;
-                }
                 System.out.println("Simulation Done");
                 break;
             }else{
