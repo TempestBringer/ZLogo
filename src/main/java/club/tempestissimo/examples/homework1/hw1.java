@@ -20,7 +20,7 @@ import java.util.List;
 public class hw1 {
     public static void main(String[] args) {
         //自拟一些运行参数
-        int nodeCount = 100;
+        int nodeCount = 50;
         double randomLinkInitializePossibility = 0.1;
         double randomLinkRebuildPossibility = 0.1;
         int defaultDrawSize = 10;
@@ -32,10 +32,10 @@ public class hw1 {
         //Model1的偏好
 //        Preference preference = new Preference(-1.48, 1.98, 0.0, 0.0, 0.21, -0.347, 0.5, -0.33, 0.1);
 
-        Preference preference = new Preference(-1.78, 1.98,
-                1.0, 0.0, 0.21,
-                -0.347, 0.5,
-                -0.33, 1.0/nodeCount);
+//        Preference preference = new Preference(-1.78, 1.98,
+//                1.0, 0.0, 0.21,
+//                -0.347, 0.5,
+//                -0.33, 1.0/nodeCount);
         //网络崩溃成为星形网络
 //        Preference preference = new Preference(-0.48, 1.98, 1.5, 1.25, 0.21, 0.347, 0.5, -0.33, 1.0);
         //较为均衡的B0=0.23
@@ -52,11 +52,11 @@ public class hw1 {
 //                0);
 
         //适用于作业2模拟新生建立朋友网络的过程
-//        Preference preference = new Preference(1, -0.11,
-//                -0.8, 0,
-//                0, 0.15,
-//                0.5, 0.2,
-//                0.35);
+        Preference preference = new Preference(1, -0.11,
+                -0.8, 0,
+                0, 0.15,
+                0.5, 0.2,
+                0.35);
 //        Preference preference = new Preference(1.5, -1.5,
 //                1.5, 0.0,
 //                -1, -0.347,
@@ -67,9 +67,9 @@ public class hw1 {
 //                -1, -0.347,
 //                -1, 0.33,
 //                0.03);
-
+        String baseName = "hw1";
         //初始化网络
-        Net net = new Net(nodeCount);
+        Net net = new Net(baseName, nodeCount);
         net.setDoTickInterval(0);
         List<AbstractInitializer> initializers = new ArrayList<>();
         List<AbstractTickEvent> tickEvents = new ArrayList<>();
@@ -96,9 +96,9 @@ public class hw1 {
 
         //6.准备分析器
         List<AbstractAnalyser> tickAnalysers = new ArrayList<>();
-        tickAnalysers.add(new NodeDegreeAnalyser());
+        tickAnalysers.add(new NodeDegreeAnalyser(baseName));
 //        tickAnalysers.add(new NetToFileAnalyser(fileOutput));
-        tickAnalysers.add(new DegreeDistributionAnalyser());
+        tickAnalysers.add(new DegreeDistributionAnalyser(baseName));
         net.setTickAnalysers(tickAnalysers);
 
         //7.可视化

@@ -12,6 +12,8 @@ public class DegreeDistributionAnalyser implements AbstractAnalyser{
     private List<DataGraphWindow> windows = new ArrayList<>();
     private HashMap<String, List<Double>> data;
 
+    private String baseString;
+
     private String graph1 = "Degree Distribution";
 
     private CanvasAttributes canvasAttributes = new CanvasAttributes(640, 360, 10);
@@ -42,17 +44,18 @@ public class DegreeDistributionAnalyser implements AbstractAnalyser{
             distribution.set((int) perRowSum[i],distribution.get((int) perRowSum[i])+1);
         }
 
-        this.data.put(graph1, distribution);
+        this.data.put(baseString+graph1, distribution);
 //        System.out.println("data to draw: "+this.data.get(graph1).toString());
 //        System.out.println("length to draw: "+this.data.get(graph1).size());
         //绘图
-        this.windows.get(0).setDrawData(this.data.get(graph1));
+        this.windows.get(0).setDrawData(this.data.get(baseString+graph1));
         this.windows.get(0).update();
     }
 
-    public DegreeDistributionAnalyser() {
+    public DegreeDistributionAnalyser(String baseString) {
+        this.baseString = baseString;
         this.data = new HashMap<>();
-        DataGraphWindow window = new DataGraphWindow(graph1, canvasAttributes);
+        DataGraphWindow window = new DataGraphWindow(baseString+graph1, canvasAttributes);
         this.windows.add(window);
     }
 }

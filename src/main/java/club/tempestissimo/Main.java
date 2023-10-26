@@ -29,9 +29,9 @@ public class Main {
         //Model1的偏好
         Preference preference = new Preference(-1.48, 1.98, 1.0, 1.0, 0.21, -0.347, 0.5, -0.33, 1.0);
 
-
+        String baseName = "main";
         //初始化网络
-        Net net = new Net(nodeCount);
+        Net net = new Net(baseName, nodeCount);
         net.setDoTickInterval(1000);
         List<AbstractInitializer> initializers = new ArrayList<>();
         List<AbstractTickEvent> tickEvents = new ArrayList<>();

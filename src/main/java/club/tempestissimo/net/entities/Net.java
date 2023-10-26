@@ -10,8 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Net implements Runnable{
-
+public class Net extends Thread{
+    /**
+     * 网络名字
+     */
+    private String baseName;
     /**
      * 节点数量
      */
@@ -49,6 +52,11 @@ public class Net implements Runnable{
     private MainWindow window;
 
     private int tickFrame;
+    private boolean doLogCurrentTick = true;
+    /**
+     * 是否输出性能信息
+     */
+    private boolean doLogPerformance = true;
 
     /**
      * 改变节点数量
@@ -99,7 +107,8 @@ public class Net implements Runnable{
      * 初始化网络，其中的节点位置为0，颜色为（255，0，0），连接矩阵被填充为0.0
      * @param nodeCount
      */
-    public Net(int nodeCount) {
+    public Net(String baseName,int nodeCount) {
+        this.baseName = baseName;
         this.tickFrame=0;
         this.nodeCount = nodeCount;
         this.nodes = new CopyOnWriteArrayList<>();
@@ -132,37 +141,50 @@ public class Net implements Runnable{
      */
     public void initiateWindow(CanvasAttributes canvasAttributes){
         this.canvasAttributes = canvasAttributes;
-        this.window = new MainWindow(this,canvasAttributes);
+        this.window = new MainWindow(baseName, this,canvasAttributes);
     }
 
     /**
      * 进行逐刻物理运算
      */
     public void tickPhysics(){
-        long startTime = System.nanoTime();
-        for (int i = 0;i<tickEvents.size();i++){
-            tickEvents.get(i).tick(this);
+        if (doLogPerformance){
+            long startTime = System.nanoTime();
+            for (int i = 0;i<tickEvents.size();i++){
+                tickEvents.get(i).tick(this);
+            }
+            long endTime = System.nanoTime();
+            long usedTime = endTime-startTime;
+            System.out.println("Current Tick Physic Time: ".concat(String.valueOf(usedTime/1000000)).concat("ms").concat(String.valueOf(usedTime%1000000)).concat("ns "));
+
+        }else{
+            for (int i = 0;i<tickEvents.size();i++){
+                tickEvents.get(i).tick(this);
+            }
         }
-        long endTime = System.nanoTime();
-        long usedTime = endTime-startTime;
-        System.out.println("Current Tick Physic Time: ".concat(String.valueOf(usedTime/1000000)).concat("ms").concat(String.valueOf(usedTime%1000000)).concat("ns "));
     }
 
     /**
      * 进行逐刻分析器运算
      */
     public void tickAnalysers(){
-        long startTime = System.nanoTime();
-        for (int i = 0; i < tickAnalysers.size(); i++) {
-            tickAnalysers.get(i).analyse(this);
+        if (doLogPerformance){
+            long startTime = System.nanoTime();
+            for (int i = 0; i < tickAnalysers.size(); i++) {
+                tickAnalysers.get(i).analyse(this);
 //            for (String scoreboard:tickAnalysers.get(i).getData().keySet()){
 //                Double curTickValue = tickAnalysers.get(i).getData().get(scoreboard).get(this.tickFrame);
 //                System.out.println(scoreboard.concat(": ").concat(String.valueOf(curTickValue)));
 //            }
+            }
+            long endTime = System.nanoTime();
+            long usedTime = endTime-startTime;
+            System.out.println("Current Tick Analyse Time: ".concat(String.valueOf(usedTime/1000000)).concat("ms").concat(String.valueOf(usedTime%1000000)).concat("ns "));
+        }else{
+            for (int i = 0; i < tickAnalysers.size(); i++) {
+                tickAnalysers.get(i).analyse(this);
+            }
         }
-        long endTime = System.nanoTime();
-        long usedTime = endTime-startTime;
-        System.out.println("Current Tick Analyse Time: ".concat(String.valueOf(usedTime/1000000)).concat("ms").concat(String.valueOf(usedTime%1000000)).concat("ns "));
 
     }
 
@@ -170,13 +192,20 @@ public class Net implements Runnable{
     public void run() {
         while(!doBreak){
             if (doTick){
-                System.out.println("-----------------");
-                System.out.println("Tick: ".concat(String.valueOf(tickFrame)));
-                //进行网络仿真计算
-                this.tickPhysics();
-                //分析器更新自己
-                this.tickAnalysers();
-                System.out.println("Current Net Contain : ".concat(String.valueOf(nodeCount)).concat(" nodes."));
+                if (doLogCurrentTick){
+                    System.out.println("-----------------");
+                    System.out.println("Tick: ".concat(String.valueOf(tickFrame)));
+                    //进行网络仿真计算
+                    this.tickPhysics();
+                    //分析器更新自己
+                    this.tickAnalysers();
+                    System.out.println("Current Net Contain : ".concat(String.valueOf(nodeCount)).concat(" nodes."));
+                }else{
+                    //进行网络仿真计算
+                    this.tickPhysics();
+                    //分析器更新自己
+                    this.tickAnalysers();
+                }
             }
             //绘制可视化
             if (this.window!=null){
@@ -290,8 +319,32 @@ public class Net implements Runnable{
         this.tickAnalysers = tickAnalysers;
     }
 
+    public String getBaseName() {
+        return baseName;
+    }
+
+    public void setBaseName(String baseName) {
+        this.baseName = baseName;
+    }
+
+    public boolean isDoLogCurrentTick() {
+        return doLogCurrentTick;
+    }
+
+    public void setDoLogCurrentTick(boolean doLogCurrentTick) {
+        this.doLogCurrentTick = doLogCurrentTick;
+    }
+
+    public boolean isDoLogPerformance() {
+        return doLogPerformance;
+    }
+
+    public void setDoLogPerformance(boolean doLogPerformance) {
+        this.doLogPerformance = doLogPerformance;
+    }
+
     public Net copy(){
-        Net net = new Net(this.nodeCount);
+        Net net = new Net(this.baseName, this.nodeCount);
         net.setNodes(new CopyOnWriteArrayList<>());
         for (int i = 0; i < nodeCount; i++) {
             net.getNodes().add(nodes.get(i).copy(net));

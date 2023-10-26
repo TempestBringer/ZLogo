@@ -56,9 +56,9 @@ public class hw1Optimized {
                 -0.347, 0.5,
                 -0.33, 0.125);
 
-
+        String baseName = "hw1MT";
         //初始化网络
-        Net net = new Net(nodeCount);
+        Net net = new Net(baseName, nodeCount);
         net.setDoTickInterval(0);
         List<AbstractInitializer> initializers = new ArrayList<>();
         List<AbstractTickEvent> tickEvents = new ArrayList<>();
@@ -86,8 +86,8 @@ public class hw1Optimized {
 
         //6.准备分析器
         List<AbstractAnalyser> tickAnalysers = new ArrayList<>();
-        tickAnalysers.add(new NodeDegreeAnalyser());
-        tickAnalysers.add(new DegreeDistributionAnalyser());
+        tickAnalysers.add(new NodeDegreeAnalyser(baseName));
+        tickAnalysers.add(new DegreeDistributionAnalyser(baseName));
         net.setTickAnalysers(tickAnalysers);
 
         //7.可视化

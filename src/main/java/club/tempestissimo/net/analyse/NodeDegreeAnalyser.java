@@ -14,6 +14,7 @@ import java.util.List;
  */
 
 public class NodeDegreeAnalyser implements  AbstractAnalyser{
+    private String baseName;
     /**
      * Key String为计分项名称，List<Double>为随每帧生成的一个计分值，List中第index帧的计分值为List.get(index)
      */
@@ -60,7 +61,7 @@ public class NodeDegreeAnalyser implements  AbstractAnalyser{
             }
         }
         //计分值：total degree
-        String scoreboardNameOne = graph1;
+        String scoreboardNameOne = baseName + graph1;
         if (!data.containsKey(scoreboardNameOne)){
             data.put(scoreboardNameOne,new ArrayList<>());
         }
@@ -69,7 +70,7 @@ public class NodeDegreeAnalyser implements  AbstractAnalyser{
         data.put(scoreboardNameOne, resultsOne);
 
         //计分值：max degree
-        String scoreboardNameTwo = graph2;
+        String scoreboardNameTwo = baseName + graph2;
         if (!data.containsKey(scoreboardNameTwo)){
             data.put(scoreboardNameTwo,new ArrayList<>());
         }
@@ -78,17 +79,17 @@ public class NodeDegreeAnalyser implements  AbstractAnalyser{
         data.put(scoreboardNameTwo, resultsTwo);
 
         //更新图表
-        this.windows.get(0).setDrawData(this.data.get(graph1));
-        this.windows.get(1).setDrawData(this.data.get(graph2));
+        this.windows.get(0).setDrawData(this.data.get(baseName + graph1));
+        this.windows.get(1).setDrawData(this.data.get(baseName + graph2));
         for (DataGraphWindow window: windows){
             window.update();
         }
     }
 
-    public NodeDegreeAnalyser(){
+    public NodeDegreeAnalyser(String baseName){
         this.data = new HashMap<>();
-        DataGraphWindow window1 = new DataGraphWindow(graph1, canvasAttributes);
-        DataGraphWindow window2 = new DataGraphWindow(graph2, canvasAttributes);
+        DataGraphWindow window1 = new DataGraphWindow(baseName + graph1, canvasAttributes);
+        DataGraphWindow window2 = new DataGraphWindow(baseName + graph2, canvasAttributes);
 
         this.windows.add(window1);
         this.windows.add(window2);
