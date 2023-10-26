@@ -4,10 +4,13 @@ import club.tempestissimo.net.entities.Net;
 import club.tempestissimo.net.entities.Node;
 import club.tempestissimo.net.tick.AbstractTickEvent;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class SAOConnectionTickEvent implements AbstractTickEvent {
     public boolean useExp = true;
+
+    public boolean warnValueOverflow = false;
 
     @Override
     public void tick(Net net) {
@@ -46,7 +49,6 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
         }else{
             fenZi = evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex);
         }
-
         double fenMu = 0.0;
         for (int i=0;i<nodeCount;i++){
             if (i!=startAgentIndex){
@@ -59,6 +61,11 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
                     fenMu += Math.exp(0);
                 else
                     fenMu += 1;
+            }
+        }
+        if (warnValueOverflow){
+            if (fenZi>1E300 || fenMu>1E300) {
+                System.out.println("Double Overflow Detected in Net " + net.getBaseName() + " !");
             }
         }
         double possibility = fenZi/fenMu;
