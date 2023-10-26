@@ -14,6 +14,10 @@ import club.tempestissimo.net.initialize.connection.NullLinkInitializer;
 import club.tempestissimo.net.initialize.place.CirclePlaceInitializer;
 import club.tempestissimo.net.tick.AbstractTickEvent;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,17 +26,19 @@ public class hw2 {
     public static void main(String[] args) {
         //网络节点数设置
         int nodeCount = 100;
+        //备注
+        String comment = "更改的变量是Popularity";
         //主窗体大小设置
         int defaultDrawSize = 10;
         int initiateRadius = 300;
         int windowWidth = 800;
         int windowHeight = 800;
         //B0参数搜索范围
-        double argStart = 0.00;
-        double argStep = 0.005;
-        double argStop = 0.50;
+        double argStart = -1.0;
+        double argStep = 0.05;
+        double argStop = 3.0;
         //模拟步数
-        int tickSteps = 3000;
+        int tickSteps = 4000;
         //是否为每个网络提供运行中的网络可视化
         boolean doInitiateWindow = false;
         //基准偏好权重
@@ -42,14 +48,16 @@ public class hw2 {
                 -1, 0.33,
                 0.2);
         List<Net> nets = new ArrayList<Net>();
-
+        List<Double> variables = new ArrayList<>();
         for(double arg = argStart;arg<argStop;arg+=argStep){
+            variables.add(arg);
             String baseName = "B0 = ".concat(String.valueOf(arg));
             //0.初始化网络节点
             Net net = new Net(baseName,nodeCount);
             //1.替换网络初始偏好参数
             Preference newPreference = basePreference.copy();
-            newPreference.setBalancePreferenceB0(arg);
+//            newPreference.setBalancePreferenceB0(arg);
+            newPreference.setPopularityPreference(arg);
             //2.装入初始化方法
             List<AbstractInitializer> initializers = new ArrayList<>();
             //初始化位置
@@ -111,46 +119,64 @@ public class hw2 {
                 }
             }
         }
-        //全部迭代完毕准备分析
-        for (int i = 0; i < nets.size(); i++) {
-            HashMap<String, List<Double>> analyserResultMapping =  nets.get(i).getTickAnalysers().get(0).getData();
-            String[] strings = analyserResultMapping.keySet().toArray(new String[analyserResultMapping.keySet().size()]);
-            List<Double> doubles = analyserResultMapping.get(strings[0]);
-            System.out.print(doubles);
-            System.out.println(";");
-        }
-//        List<Double> perB0MaxDegreeNodeCount = new ArrayList<>();
-//        List<Double> perB0SumDegree = new ArrayList<>();
-//        List<Double> perB0SumDegree49 = new ArrayList<>();
-//        List<Double> perB0SumDegree48 = new ArrayList<>();
-//        List<Double> perB0SumDegree47 = new ArrayList<>();
-//        List<Double> perB0SumDegree46 = new ArrayList<>();
-//        List<Double> perB0SumDegree45 = new ArrayList<>();
-//        for (int i = 0; i < nets.size(); i++) {
-//
-//            HashMap<String, List<Double>> analyserResultMapping =  nets.get(i).getTickAnalysers().get(0).getData();
-//            String[] strings = analyserResultMapping.keySet().toArray(new String[analyserResultMapping.keySet().size()]);
-//            List<Double> doubles = analyserResultMapping.get(strings[0]);
-//            perB0MaxDegreeNodeCount.add(doubles.get(doubles.size()-1));
-//            perB0SumDegree49.add(doubles.get(doubles.size()-2));
-//            perB0SumDegree48.add(doubles.get(doubles.size()-3));
-//            perB0SumDegree47.add(doubles.get(doubles.size()-4));
-//            perB0SumDegree46.add(doubles.get(doubles.size()-5));
-//            perB0SumDegree45.add(doubles.get(doubles.size()-6));
-//
-//            double sumDegree = 0;
-//            for (int j = 0; j < doubles.size(); j++) {
-//                sumDegree+=j*doubles.get(j);
-//            }
-//            perB0SumDegree.add((double) sumDegree);
-//        }
-//        System.out.println("Degree=50 Count:"+perB0MaxDegreeNodeCount.toString());
-//        System.out.println("Degree=49 Count:"+perB0SumDegree49.toString());
-//        System.out.println("Degree=48 Count:"+perB0SumDegree48.toString());
-//        System.out.println("Degree=47 Count:"+perB0SumDegree47.toString());
-//        System.out.println("Degree=46 Count:"+perB0SumDegree46.toString());
-//        System.out.println("Degree=45 Count:"+perB0SumDegree45.toString());
-//        System.out.println("Total Degree:"+perB0SumDegree.toString());
+        //全部迭代完毕准备分析以及转储
+        try {
+            String filePath = "./generated/matlab_".concat(String.valueOf(System.currentTimeMillis())).concat(".m");
+            BufferedWriter writer = new BufferedWriter (new OutputStreamWriter(new FileOutputStream(filePath,true),"UTF-8"));
+            writer.write("clear;\n");
+            writer.write("clc;\n");
+            writer.write("close all;\n");
 
+            writer.write("nodeCount=".concat(String.valueOf(nodeCount)).concat(";"));
+            writer.write("\n");
+            writer.write("% ".concat(comment).concat(";"));
+            writer.write("\n");
+            writer.write("argStart=".concat(String.valueOf(argStart)).concat(";"));
+            writer.write("\n");
+            writer.write("argStep=".concat(String.valueOf(argStep)).concat(";"));
+            writer.write("\n");
+            writer.write("argStop=".concat(String.valueOf(argStop)).concat(";"));
+            writer.write("\n");
+            writer.write(basePreference.toString());
+            writer.write("\n");
+            writer.write("x=[0:nodeCount-1];\n");
+//            writer.write("y=[argStart:argStep:argStop-argStep];\n");
+            writer.write("y=[");
+            for (int i = 0; i < nets.size(); i++) {
+                writer.write(String.valueOf(variables.get(i)));
+                if (i!= nets.size()-1)
+                    writer.write(",");
+            }
+            writer.write("];\n");
+            writer.write("[X,Y]=meshgrid(x,y);\n");
+            String data = "z=[";
+            for (int i = 0; i < nets.size(); i++) {
+                HashMap<String, List<Double>> analyserResultMapping =  nets.get(i).getTickAnalysers().get(0).getData();
+                String[] strings = analyserResultMapping.keySet().toArray(new String[analyserResultMapping.keySet().size()]);
+                List<Double> doubles = analyserResultMapping.get(strings[0]);
+                System.out.print(doubles);
+                data = data.concat(doubles.toString());
+                if (i!=nets.size()-1) {
+                    data = data.concat(";");
+                }
+                System.out.println(";");
+                //文件转储
+
+
+            }
+            data = data.concat("]\n");
+            writer.write(data);
+            writer.write("figure\n");
+            writer.write("plot3(X,Y,z);\n");
+            writer.write("figure;\n");
+            writer.write("surf(X,Y,z);\n");
+
+
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.exit(0);
     }
 }

@@ -99,4 +99,18 @@ public class Preference {
         return new Preference(this.densityPreference,this.reciprocityPreference,this.popularityPreference,this.activityPreference,this.transitivityPreference,this.indirectRelationEffectPreference,this.indirectRelationEffectPreferenceIsWeakConnectionThreshold,this.balancePreference,this.balancePreferenceB0);
     }
 
+    @Override
+    public String toString() {
+        return "" +
+                "densityPreference=" + densityPreference +
+                ";\nreciprocityPreference=" + reciprocityPreference +
+                ";\npopularityPreference=" + popularityPreference +
+                ";\nactivityPreference=" + activityPreference +
+                ";\ntransitivityPreference=" + transitivityPreference +
+                ";\nindirectRelationEffectPreference=" + indirectRelationEffectPreference +
+                ";\nindirectRelationEffectPreferenceIsWeakConnectionThreshold=" + indirectRelationEffectPreferenceIsWeakConnectionThreshold +
+                ";\nbalancePreference=" + balancePreference +
+                ";\nbalancePreferenceB0=" + balancePreferenceB0 +
+                ";\n";
+    }
 }
