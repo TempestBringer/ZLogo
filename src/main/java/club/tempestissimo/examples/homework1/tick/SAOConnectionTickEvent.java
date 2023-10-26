@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SAOConnectionTickEvent implements AbstractTickEvent {
-    public boolean useExp = true;
-
-    public boolean warnValueOverflow = false;
-
     @Override
     public void tick(Net net) {
         //每次随机选择一个节点i，改变i的出度
@@ -84,11 +80,11 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
 //                    fenMu += 1;
 //            }
 //        }
-        if (warnValueOverflow){
-            if (fenZi>1E300 || fenMu>1E300) {
-                System.out.println("Double Overflow Detected in Net " + net.getBaseName() + " !");
-            }
-        }
+//        if (warnValueOverflow){
+//            if (fenZi>1E300 || fenMu>1E300) {
+//                System.out.println("Double Overflow Detected in Net " + net.getBaseName() + " !");
+//            }
+//        }
         double possibility = fenZi/fenMu;
 //        System.out.println("fenZi : ".concat(String.valueOf(fenZi)));
 //        System.out.println("fenMu : ".concat(String.valueOf(fenMu)));

@@ -21,18 +21,18 @@ import java.util.List;
 public class hw2 {
     public static void main(String[] args) {
         //网络节点数设置
-        int nodeCount = 50;
+        int nodeCount = 100;
         //主窗体大小设置
         int defaultDrawSize = 10;
         int initiateRadius = 300;
         int windowWidth = 800;
         int windowHeight = 800;
         //B0参数搜索范围
-        double argStart = 0.10;
-        double argStep = 0.01;
-        double argStop = 0.40;
+        double argStart = 0.00;
+        double argStep = 0.005;
+        double argStop = 0.50;
         //模拟步数
-        int tickSteps = 10000;
+        int tickSteps = 3000;
         //是否为每个网络提供运行中的网络可视化
         boolean doInitiateWindow = false;
         //基准偏好权重
@@ -44,10 +44,10 @@ public class hw2 {
         List<Net> nets = new ArrayList<Net>();
 
         for(double arg = argStart;arg<argStop;arg+=argStep){
-            String baseName = "B0=".concat(String.valueOf(arg));
+            String baseName = "B0 = ".concat(String.valueOf(arg));
             //0.初始化网络节点
             Net net = new Net(baseName,nodeCount);
-            //1.替换网络
+            //1.替换网络初始偏好参数
             Preference newPreference = basePreference.copy();
             newPreference.setBalancePreferenceB0(arg);
             //2.装入初始化方法
@@ -63,8 +63,6 @@ public class hw2 {
             //3.装入每刻计算任务
             List<AbstractTickEvent> tickEvents = new ArrayList<>();
             SAOConnectionTickEvent saoConnectionTickEvent = new SAOConnectionTickEvent();
-            saoConnectionTickEvent.useExp=true;
-            saoConnectionTickEvent.warnValueOverflow=true;
             tickEvents.add(saoConnectionTickEvent);
             tickEvents.add(new TickStopEvent(tickSteps));
             //应用计算任务
@@ -114,37 +112,45 @@ public class hw2 {
             }
         }
         //全部迭代完毕准备分析
-        List<Double> perB0MaxDegreeNodeCount = new ArrayList<>();
-        List<Double> perB0SumDegree = new ArrayList<>();
-        List<Double> perB0SumDegree49 = new ArrayList<>();
-        List<Double> perB0SumDegree48 = new ArrayList<>();
-        List<Double> perB0SumDegree47 = new ArrayList<>();
-        List<Double> perB0SumDegree46 = new ArrayList<>();
-        List<Double> perB0SumDegree45 = new ArrayList<>();
         for (int i = 0; i < nets.size(); i++) {
-
             HashMap<String, List<Double>> analyserResultMapping =  nets.get(i).getTickAnalysers().get(0).getData();
             String[] strings = analyserResultMapping.keySet().toArray(new String[analyserResultMapping.keySet().size()]);
             List<Double> doubles = analyserResultMapping.get(strings[0]);
-            perB0MaxDegreeNodeCount.add(doubles.get(doubles.size()-1));
-            perB0SumDegree49.add(doubles.get(doubles.size()-2));
-            perB0SumDegree48.add(doubles.get(doubles.size()-3));
-            perB0SumDegree47.add(doubles.get(doubles.size()-4));
-            perB0SumDegree46.add(doubles.get(doubles.size()-5));
-            perB0SumDegree45.add(doubles.get(doubles.size()-6));
-
-            double sumDegree = 0;
-            for (int j = 0; j < doubles.size(); j++) {
-                sumDegree+=j*doubles.get(j);
-            }
-            perB0SumDegree.add((double) sumDegree);
+            System.out.print(doubles);
+            System.out.println(";");
         }
-        System.out.println("Degree=50 Count:"+perB0MaxDegreeNodeCount.toString());
-        System.out.println("Degree=49 Count:"+perB0SumDegree49.toString());
-        System.out.println("Degree=48 Count:"+perB0SumDegree48.toString());
-        System.out.println("Degree=47 Count:"+perB0SumDegree47.toString());
-        System.out.println("Degree=46 Count:"+perB0SumDegree46.toString());
-        System.out.println("Degree=45 Count:"+perB0SumDegree45.toString());
-        System.out.println("Total Degree:"+perB0SumDegree.toString());
+//        List<Double> perB0MaxDegreeNodeCount = new ArrayList<>();
+//        List<Double> perB0SumDegree = new ArrayList<>();
+//        List<Double> perB0SumDegree49 = new ArrayList<>();
+//        List<Double> perB0SumDegree48 = new ArrayList<>();
+//        List<Double> perB0SumDegree47 = new ArrayList<>();
+//        List<Double> perB0SumDegree46 = new ArrayList<>();
+//        List<Double> perB0SumDegree45 = new ArrayList<>();
+//        for (int i = 0; i < nets.size(); i++) {
+//
+//            HashMap<String, List<Double>> analyserResultMapping =  nets.get(i).getTickAnalysers().get(0).getData();
+//            String[] strings = analyserResultMapping.keySet().toArray(new String[analyserResultMapping.keySet().size()]);
+//            List<Double> doubles = analyserResultMapping.get(strings[0]);
+//            perB0MaxDegreeNodeCount.add(doubles.get(doubles.size()-1));
+//            perB0SumDegree49.add(doubles.get(doubles.size()-2));
+//            perB0SumDegree48.add(doubles.get(doubles.size()-3));
+//            perB0SumDegree47.add(doubles.get(doubles.size()-4));
+//            perB0SumDegree46.add(doubles.get(doubles.size()-5));
+//            perB0SumDegree45.add(doubles.get(doubles.size()-6));
+//
+//            double sumDegree = 0;
+//            for (int j = 0; j < doubles.size(); j++) {
+//                sumDegree+=j*doubles.get(j);
+//            }
+//            perB0SumDegree.add((double) sumDegree);
+//        }
+//        System.out.println("Degree=50 Count:"+perB0MaxDegreeNodeCount.toString());
+//        System.out.println("Degree=49 Count:"+perB0SumDegree49.toString());
+//        System.out.println("Degree=48 Count:"+perB0SumDegree48.toString());
+//        System.out.println("Degree=47 Count:"+perB0SumDegree47.toString());
+//        System.out.println("Degree=46 Count:"+perB0SumDegree46.toString());
+//        System.out.println("Degree=45 Count:"+perB0SumDegree45.toString());
+//        System.out.println("Total Degree:"+perB0SumDegree.toString());
+
     }
 }

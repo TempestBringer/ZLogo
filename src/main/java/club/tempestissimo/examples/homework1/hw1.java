@@ -88,7 +88,7 @@ public class hw1 {
 
         //4.计算任务
         SAOConnectionTickEvent saoConnectionTickEvent = new SAOConnectionTickEvent();
-        saoConnectionTickEvent.useExp = true;//是否使用exp函数
+//        saoConnectionTickEvent.useExp = true;//是否使用exp函数
         tickEvents.add(saoConnectionTickEvent);
 
         //5.应用计算任务
