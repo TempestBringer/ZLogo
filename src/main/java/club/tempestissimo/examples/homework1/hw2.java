@@ -32,7 +32,7 @@ public class hw2 {
         double argStep = 0.01;
         double argStop = 0.40;
         //模拟步数
-        int tickSteps = 2000;
+        int tickSteps = 10000;
         //是否为每个网络提供运行中的网络可视化
         boolean doInitiateWindow = false;
         //基准偏好权重

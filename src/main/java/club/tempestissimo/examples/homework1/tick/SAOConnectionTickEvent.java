@@ -4,8 +4,10 @@ import club.tempestissimo.net.entities.Net;
 import club.tempestissimo.net.entities.Node;
 import club.tempestissimo.net.tick.AbstractTickEvent;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SAOConnectionTickEvent implements AbstractTickEvent {
     public boolean useExp = true;
@@ -44,25 +46,44 @@ public class SAOConnectionTickEvent implements AbstractTickEvent {
 //        System.out.println("Selected Node ".concat(String.valueOf(targetAgentIndex)).concat(" as target node"));
         // 计算更改的概率
         double fenZi = 0;
-        if (useExp){
-            fenZi = Math.exp(evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex));
-        }else{
-            fenZi = evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex);
-        }
         double fenMu = 0.0;
+        double newFenZi = evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex);
+        double maxExp=fenZi;//最大Exp阶
+        List<Double> newFenMus = new ArrayList<>();
         for (int i=0;i<nodeCount;i++){
             if (i!=startAgentIndex){
-                if (useExp)
-                    fenMu += Math.exp(evaluateConnectionQuality(net, startAgentIndex,i));
-                else
-                    fenMu += evaluateConnectionQuality(net, startAgentIndex,i);
+                double aFenMu = evaluateConnectionQuality(net, startAgentIndex, i);
+                if (aFenMu>maxExp)
+                    maxExp=aFenMu;
+                newFenMus.add(aFenMu);
             }else{
-                if (useExp)
-                    fenMu += Math.exp(0);
-                else
-                    fenMu += 1;
+                newFenMus.add(0.0);
             }
         }
+        fenZi = Math.exp(newFenZi-maxExp);
+        for (int i=0;i<nodeCount;i++){
+            fenMu += Math.exp(newFenMus.get(i)-maxExp);
+        }
+        //处理概率，需要对抗数值溢出
+//        if (useExp){
+//            fenZi = Math.exp(evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex));
+//        }else{
+//            fenZi = evaluateConnectionQuality(net, startAgentIndex, targetAgentIndex);
+//        }
+//
+//        for (int i=0;i<nodeCount;i++){
+//            if (i!=startAgentIndex){
+//                if (useExp)
+//                    fenMu += Math.exp(evaluateConnectionQuality(net, startAgentIndex,i));
+//                else
+//                    fenMu += evaluateConnectionQuality(net, startAgentIndex,i);
+//            }else{
+//                if (useExp)
+//                    fenMu += Math.exp(0);
+//                else
+//                    fenMu += 1;
+//            }
+//        }
         if (warnValueOverflow){
             if (fenZi>1E300 || fenMu>1E300) {
                 System.out.println("Double Overflow Detected in Net " + net.getBaseName() + " !");
