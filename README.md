@@ -12,7 +12,7 @@ How To Use Example:
  - Adjust Preference / Initialize Class To See Different Network Behavior. So Many Arguments to Adjust...
  - For More Adjustment, You'd Better Read Java Code.
 
-How TO Use Framework:
+How To Use Framework:
  - Read hw1 && hw2 Java Code, All Steps Is Write With Comments.
  - Beyond hw1 && hw2, You Can Write Your Own Initializer/TickEvent/Analyser by Implement AbstractInitializer/AbstractTickEvent/AbstractAnalyser, Read/Write Net.getConnectionMatrix() to Complete Function.
  - Don't Forget Register Your Function Class To Net.
@@ -24,3 +24,6 @@ FrameWork Support:
 
 Interesting Arguments:
  - See src/main/resources/args.txt
+
+Deprecated:
+ - src/main/java/club/tempestissimo/examples/homework1/tick/SAOConnectionTickEventOptimized.java - Don't Use, The Built In Parallel Function Is Broken.(Get Different Result Compared To SAOConnectionTickEvent Under Same Arguments)
