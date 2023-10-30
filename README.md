@@ -20,3 +20,7 @@ How TO Use Framework:
 FrameWork Support:
  - All Things NetLogo Can Do In Case You Fully Understand This FrameWork.
  - High Performance Parallel Grid Search.(hw2 For Example)
+ - Built In 2D Graphics Real Time Drawing For Analyser.
+
+Interesting Arguments:
+ - See src/main/resources/args.txt
