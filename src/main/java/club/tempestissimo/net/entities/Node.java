@@ -38,6 +38,32 @@ public class Node {
     private HashMap<String, Double> args;
     private boolean doLog = false;
 
+    /**
+     * 读取节点的内生参数，如无参数会返回0.0
+     * @param entry
+     * @return
+     */
+    public double getArg(String entry){
+        if (args.containsKey(entry)){
+            return args.get(entry);
+        }else{
+            return 0.0;
+        }
+    }
+
+    /**
+     * 设置节点的内生参数
+     * @param entry 参数名
+     * @param value 值
+     */
+    public void setArg(String entry, double value){
+        args.put(entry, value);
+    }
+
+    /**
+     * 计算节点的满意度，用于作业1
+     * @return
+     */
     public double calculateSatisfaction(){
         if (!net.getNodes().contains(this)){
             System.out.println("不在网络中的节点");

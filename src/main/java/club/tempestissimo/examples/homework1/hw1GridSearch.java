@@ -6,7 +6,6 @@ import club.tempestissimo.examples.homework1.tick.SAOConnectionTickEvent;
 import club.tempestissimo.examples.homework1.tick.TickStopEvent;
 import club.tempestissimo.net.analyse.AbstractAnalyser;
 import club.tempestissimo.net.analyse.DegreeDistributionAnalyser;
-import club.tempestissimo.net.analyse.NodeDegreeAnalyser;
 import club.tempestissimo.net.entities.Net;
 import club.tempestissimo.net.entities.attributes.Preference;
 import club.tempestissimo.net.initialize.AbstractInitializer;
@@ -15,14 +14,13 @@ import club.tempestissimo.net.initialize.place.CirclePlaceInitializer;
 import club.tempestissimo.net.tick.AbstractTickEvent;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class hw2 {
+public class hw1GridSearch {
     public static void main(String[] args) {
         //网络节点数设置
         int nodeCount = 100;
