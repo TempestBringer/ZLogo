@@ -6,6 +6,7 @@ import club.tempestissimo.examples.homework1.tick.SAOConnectionTickEvent;
 import club.tempestissimo.examples.homework1.tick.TickStopEvent;
 import club.tempestissimo.net.analyse.AbstractAnalyser;
 import club.tempestissimo.net.analyse.DegreeDistributionAnalyser;
+import club.tempestissimo.net.analyse.NodeDegreeAnalyser;
 import club.tempestissimo.net.entities.Net;
 import club.tempestissimo.net.entities.attributes.Preference;
 import club.tempestissimo.net.initialize.AbstractInitializer;
@@ -14,6 +15,7 @@ import club.tempestissimo.net.initialize.place.CirclePlaceInitializer;
 import club.tempestissimo.net.tick.AbstractTickEvent;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -33,7 +35,8 @@ public class hw1GridSearch {
         int windowHeight = 800;
         //B0参数搜索范围
         double argStart = -1.0;
-        double argStep = 0.05;
+//        double argStep = 0.05;
+        double argStep = 1.0;
         double argStop = 3.0;
         //模拟步数
         int tickSteps = 4000;
@@ -77,6 +80,7 @@ public class hw1GridSearch {
             List<AbstractAnalyser> tickAnalysers = new ArrayList<>();
 //            tickAnalysers.add(new NodeDegreeAnalyser("B0=".concat(String.valueOf(arg))));
             tickAnalysers.add(new DegreeDistributionAnalyser("B0=".concat(String.valueOf(arg))));
+            tickAnalysers.add(new NodeDegreeAnalyser("B0=".concat(String.valueOf(arg))));
             net.setTickAnalysers(tickAnalysers);
             //5.应用可视化
             if (doInitiateWindow) {
@@ -119,6 +123,11 @@ public class hw1GridSearch {
         }
         //全部迭代完毕准备分析以及转储
         try {
+            String folderPath = "./generated/"; // 文件夹路径
+            File dir = new File(folderPath);
+            if (!dir.exists()){
+                boolean createResult = dir.mkdir();
+            }
             String filePath = "./generated/matlab_".concat(String.valueOf(System.currentTimeMillis())).concat(".m");
             BufferedWriter writer = new BufferedWriter (new OutputStreamWriter(new FileOutputStream(filePath,true),"UTF-8"));
             writer.write("clear;\n");
@@ -135,9 +144,12 @@ public class hw1GridSearch {
             writer.write("\n");
             writer.write("argStop=".concat(String.valueOf(argStop)).concat(";"));
             writer.write("\n");
+            writer.write("tickSteps=".concat(String.valueOf(tickSteps)).concat(";"));
+            writer.write("\n");
             writer.write(basePreference.toString());
             writer.write("\n");
             writer.write("x=[0:nodeCount-1];\n");
+            writer.write("steps=[0:tickSteps-1];\n");
 //            writer.write("y=[argStart:argStep:argStop-argStep];\n");
             writer.write("y=[");
             for (int i = 0; i < nets.size(); i++) {
@@ -152,18 +164,48 @@ public class hw1GridSearch {
                 HashMap<String, List<Double>> analyserResultMapping =  nets.get(i).getTickAnalysers().get(0).getData();
                 String[] strings = analyserResultMapping.keySet().toArray(new String[analyserResultMapping.keySet().size()]);
                 List<Double> doubles = analyserResultMapping.get(strings[0]);
-                System.out.print(doubles);
+//                System.out.print(doubles);
                 data = data.concat(doubles.toString());
                 if (i!=nets.size()-1) {
                     data = data.concat(";");
                 }
-                System.out.println(";");
-                //文件转储
-
-
             }
             data = data.concat("]\n");
             writer.write(data);
+
+            String totalDegreeData = "maxDegreeData=[";
+            for (int i = 0; i < nets.size(); i++) {
+                HashMap<String, List<Double>> analyserResultMapping =  nets.get(i).getTickAnalysers().get(1).getData();
+//                System.out.println(analyserResultMapping.keySet().toString());
+                for (String key: analyserResultMapping.keySet()){
+                    if (key.contains("Max Degree")){
+                        List<Double> doubles = analyserResultMapping.get(key);
+                        totalDegreeData = totalDegreeData.concat(doubles.toString());
+                        if (i!=nets.size()-1) {
+                            totalDegreeData = totalDegreeData.concat(";");
+                        }
+                    }
+                }
+            }
+            totalDegreeData = totalDegreeData.concat("]\n");
+            writer.write(totalDegreeData);
+
+            String maxDegreeData = "totalDegreeData=[";
+            for (int i = 0; i < nets.size(); i++) {
+                HashMap<String, List<Double>> analyserResultMapping =  nets.get(i).getTickAnalysers().get(1).getData();
+                for (String key: analyserResultMapping.keySet()){
+                    if (key.contains("Total Degree")){
+                        List<Double> doubles = analyserResultMapping.get(key);
+                        maxDegreeData = maxDegreeData.concat(doubles.toString());
+                        if (i!=nets.size()-1) {
+                            maxDegreeData = maxDegreeData.concat(";");
+                        }
+                    }
+                }
+            }
+            maxDegreeData = maxDegreeData.concat("]\n");
+            writer.write(maxDegreeData);
+
             writer.write("figure\n");
             writer.write("plot3(X,Y,z);\n");
             writer.write("figure;\n");
