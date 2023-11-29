@@ -32,6 +32,11 @@ public class NodeDegreeAnalyser implements  AbstractAnalyser{
         return this.data;
     }
 
+    @Override
+    public void clearData() {
+        this.data = new HashMap<>();
+    }
+
     /**
      * 分析器被调用的函数
      * @param net

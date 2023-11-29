@@ -1,5 +1,6 @@
-package club.tempestissimo.awt;
+package club.tempestissimo.awt.PaintArea;
 
+import club.tempestissimo.awt.MainWindow;
 import club.tempestissimo.awt.attributes.CanvasAttributes;
 import club.tempestissimo.net.entities.Net;
 import club.tempestissimo.net.entities.Node;
@@ -8,6 +9,7 @@ import java.awt.*;
 
 public class PaintArea extends Canvas {
 
+    private MainWindow window;
     /**
      * 绘图数据源
      */
@@ -67,5 +69,18 @@ public class PaintArea extends Canvas {
     public void setNet(Net net) {
         this.net = net;
         this.canvasAttributes =  net.getCanvasAttributes();
+        this.addMouseListener(new AwtMouseListener(this));
+    }
+
+    public Net getNet() {
+        return net;
+    }
+
+    public MainWindow getWindow() {
+        return window;
+    }
+
+    public void setWindow(MainWindow window) {
+        this.window = window;
     }
 }

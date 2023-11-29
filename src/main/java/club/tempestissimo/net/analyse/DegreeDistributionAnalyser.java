@@ -24,6 +24,12 @@ public class DegreeDistributionAnalyser implements AbstractAnalyser{
     }
 
     @Override
+    public void clearData() {
+        this.data = new HashMap<>();
+    }
+
+
+    @Override
     public void analyse(Net net) {
         //分析
         double[][] connectionMatrix = net.getConnectionMatrix();

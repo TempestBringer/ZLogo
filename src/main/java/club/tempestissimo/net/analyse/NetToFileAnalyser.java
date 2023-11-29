@@ -19,6 +19,13 @@ public class NetToFileAnalyser implements AbstractAnalyser{
     }
 
     @Override
+    public void clearData() {
+        this.data = new HashMap<>();
+
+    }
+
+
+    @Override
     public void analyse(Net net) {
         File file = new File(filePath);
         if (!file.exists()) {

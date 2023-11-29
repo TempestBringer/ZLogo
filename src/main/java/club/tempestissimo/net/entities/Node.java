@@ -107,7 +107,7 @@ public class Node {
         this.net = net;
         this.index = index;
         this.position = new Position(0,0,0);
-        this.drawSize = 0;
+        this.drawSize = 10;
         this.color = new Color(255,0,0);
         this.args = new HashMap<>();
     }

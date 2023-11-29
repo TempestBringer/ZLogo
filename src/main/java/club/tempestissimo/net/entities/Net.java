@@ -31,6 +31,7 @@ public class Net extends Thread{
      * 是否继续物理运算
      */
     private boolean doTick = false;
+    private boolean doAnalyse = false;
     private boolean doGraphicsUpdate = true;
 
     /**
@@ -168,6 +169,9 @@ public class Net extends Thread{
      * 进行逐刻分析器运算
      */
     public void tickAnalysers(){
+        if (!doAnalyse){
+            return;
+        }
         if (doLogPerformance){
             long startTime = System.nanoTime();
             for (int i = 0; i < tickAnalysers.size(); i++) {
@@ -206,6 +210,7 @@ public class Net extends Thread{
                     //分析器更新自己
                     this.tickAnalysers();
                 }
+                this.tickFrame+=1;
             }
             //绘制可视化
             if (this.window!=null){
@@ -218,7 +223,7 @@ public class Net extends Thread{
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            this.tickFrame+=1;
+
         }
 
     }
@@ -341,6 +346,14 @@ public class Net extends Thread{
 
     public void setDoLogPerformance(boolean doLogPerformance) {
         this.doLogPerformance = doLogPerformance;
+    }
+
+    public boolean isDoAnalyse() {
+        return doAnalyse;
+    }
+
+    public void setDoAnalyse(boolean doAnalyse) {
+        this.doAnalyse = doAnalyse;
     }
 
     public Net copy(){

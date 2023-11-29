@@ -20,7 +20,7 @@ import java.util.List;
 public class hw1 {
     public static void main(String[] args) {
         //自拟一些运行参数
-        int nodeCount = 50;
+        int nodeCount = 100;
         double randomLinkInitializePossibility = 0.1;
         double randomLinkRebuildPossibility = 0.1;
         int defaultDrawSize = 10;
@@ -70,7 +70,7 @@ public class hw1 {
         String baseName = "hw1";
         //初始化网络
         Net net = new Net(baseName, nodeCount);
-        net.setDoTickInterval(0);
+        net.setDoTickInterval(10);
         List<AbstractInitializer> initializers = new ArrayList<>();
         List<AbstractTickEvent> tickEvents = new ArrayList<>();
         //1.位置初始器
@@ -107,6 +107,7 @@ public class hw1 {
 
         //8.步进
         net.setDoTick(true);
+        net.setDoAnalyse(true);
 
         //9.开始执行
         net.run();

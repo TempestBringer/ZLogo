@@ -14,6 +14,11 @@ public class FinalAnalyser implements AbstractAnalyser {
     }
 
     @Override
+    public void clearData() {
+
+    }
+
+    @Override
     public void analyse(Net net) {
 
     }
