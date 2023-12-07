@@ -167,7 +167,11 @@ Preference preference = new Preference(-1.78, 1.98,
                 -0.33, 1.0/nodeCount);
 
 
+40节点 0-19 B0=0.05 20-39 B0=0.2
+        Preference preference = new Preference(1.5, -1.98,
+                1.5, 0.0,
+                -1, -0.347,
+                0.5, 0.33,
+                0.1);
 
-a
 
-b

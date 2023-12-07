@@ -20,7 +20,7 @@ import java.util.List;
 public class hw1 {
     public static void main(String[] args) {
         //自拟一些运行参数
-        int nodeCount = 100;
+        int nodeCount = 40;
         double randomLinkInitializePossibility = 0.1;
         double randomLinkRebuildPossibility = 0.1;
         int defaultDrawSize = 10;
@@ -52,11 +52,11 @@ public class hw1 {
 //                0);
 
         //适用于作业2模拟新生建立朋友网络的过程
-        Preference preference = new Preference(1, -0.11,
-                -0.8, 0,
-                0, 0.15,
-                0.5, 0.2,
-                0.35);
+//        Preference preference = new Preference(1, -0.11,
+//                -0.8, 0,
+//                0, 0.15,
+//                0.5, 0.2,
+//                0.35);
 //        Preference preference = new Preference(1.5, -1.5,
 //                1.5, 0.0,
 //                -1, -0.347,
@@ -67,6 +67,11 @@ public class hw1 {
 //                -1, -0.347,
 //                -1, 0.33,
 //                0.03);
+        Preference preference = new Preference(1.5, -1.98,
+                1.5, 0.0,
+                -1, -0.347,
+                0.5, 0.33,
+                0.1);
         String baseName = "hw1";
         //初始化网络
         Net net = new Net(baseName, nodeCount);

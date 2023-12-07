@@ -46,6 +46,10 @@ public class MainWindow {
     private TextField nodeBalancePreferenceTextField = new TextField();
     private TextField nodeBalancePreferenceB0TextField = new TextField();
     private Button submitNodePreferenceButton = new Button("Submit Node Preference");
+    private Button submitNodePreferenceToAllButton = new Button("Submit Node Preference To All");
+    private TextField submitNodePreferenceIndexStartTextField = new TextField();
+    private TextField submitNodePreferenceIndexEndTextField = new TextField();
+    private Button submitNodePreferenceToSegmentButton = new Button("Submit Node Preference To Segment");
 
     /**
      *
@@ -108,6 +112,15 @@ public class MainWindow {
         this.controlPanel.add(nodeBalancePreferenceB0TextField);
         this.submitNodePreferenceButton.addMouseListener(new SubmitNodePreferenceButton(this.submitNodePreferenceButton, this));
         this.controlPanel.add(submitNodePreferenceButton);
+        this.submitNodePreferenceToAllButton.addMouseListener(new SubmitNodePreferenceToAllButton(this.submitNodePreferenceToAllButton, this));
+        this.controlPanel.add(submitNodePreferenceToAllButton);
+
+        this.controlPanel.add(new Label("ApplyIndex.Start:"));
+        this.controlPanel.add(submitNodePreferenceIndexStartTextField);
+        this.controlPanel.add(new Label("ApplyIndex.End:"));
+        this.controlPanel.add(submitNodePreferenceIndexEndTextField);
+        this.submitNodePreferenceToSegmentButton.addMouseListener(new SubmitNodePreferenceToSegmentButton(this.submitNodePreferenceToSegmentButton, this));
+        this.controlPanel.add(submitNodePreferenceToSegmentButton);
 
         this.controlFrame.add(this.controlPanel);
         this.controlFrame.pack();
@@ -205,6 +218,15 @@ public class MainWindow {
     public Button getSubmitNodePreferenceButton() {
         return submitNodePreferenceButton;
     }
+
+    public TextField getSubmitNodePreferenceIndexStartTextField() {
+        return submitNodePreferenceIndexStartTextField;
+    }
+
+    public TextField getSubmitNodePreferenceIndexEndTextField() {
+        return submitNodePreferenceIndexEndTextField;
+    }
+
 
     public TextField getNodeIndex() {
         return nodeIndex;
