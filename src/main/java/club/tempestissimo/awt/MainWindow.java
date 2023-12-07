@@ -50,6 +50,7 @@ public class MainWindow {
     private TextField submitNodePreferenceIndexStartTextField = new TextField();
     private TextField submitNodePreferenceIndexEndTextField = new TextField();
     private Button submitNodePreferenceToSegmentButton = new Button("Submit Node Preference To Segment");
+    private Button clearAllConnectionButton = new Button("Clear All Connection");
 
     /**
      *
@@ -121,6 +122,8 @@ public class MainWindow {
         this.controlPanel.add(submitNodePreferenceIndexEndTextField);
         this.submitNodePreferenceToSegmentButton.addMouseListener(new SubmitNodePreferenceToSegmentButton(this.submitNodePreferenceToSegmentButton, this));
         this.controlPanel.add(submitNodePreferenceToSegmentButton);
+        this.clearAllConnectionButton.addMouseListener(new ClearAllConnectionButton(this.clearAllConnectionButton, this));
+        this.controlPanel.add(clearAllConnectionButton);
 
         this.controlFrame.add(this.controlPanel);
         this.controlFrame.pack();
