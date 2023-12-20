@@ -2,6 +2,7 @@ package club.tempestissimo.examples.homework1;
 
 import club.tempestissimo.awt.attributes.CanvasAttributes;
 import club.tempestissimo.examples.homework1.initializer.SatisfactionPreferInitialize;
+import club.tempestissimo.examples.homework1.tick.AutoClearAllConnectionEvent;
 import club.tempestissimo.examples.homework1.tick.B0ChangeEvent;
 import club.tempestissimo.examples.homework1.tick.SAOConnectionTickEvent;
 import club.tempestissimo.net.analyse.AbstractAnalyser;
@@ -63,7 +64,8 @@ public class hw2 {
         SAOConnectionTickEvent saoConnectionTickEvent = new SAOConnectionTickEvent();
 //        saoConnectionTickEvent.useExp = true;//是否使用exp函数
         tickEvents.add(saoConnectionTickEvent);
-        tickEvents.add(new B0ChangeEvent());
+//        tickEvents.add(new B0ChangeEvent());
+        tickEvents.add(new AutoClearAllConnectionEvent());
 
         //5.应用计算任务
         net.setTickEvents(tickEvents);
